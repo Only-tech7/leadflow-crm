@@ -26,6 +26,10 @@ type PipelineLead = {
   nextAction: string;
   priority: "Alta" | "Média" | "Baixa";
   probability: number;
+
+  product: "Roupas" | "Canecas" | "Livros";
+  campaign: string;
+  source: string;
 };
 
 type PipelineColumn = {
@@ -50,6 +54,9 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "Hoje, 15:00",
         priority: "Alta",
         probability: 92,
+        product: "Livros",
+        campaign: "Campanha Liderança 2026",
+        source: "Meta Ads",
       },
       {
         id: 2,
@@ -59,7 +66,10 @@ const initialColumns: PipelineColumn[] = [
         owner: "Gabriel",
         nextAction: "Amanhã, 09:30",
         priority: "Média",
-        probability: 65
+        probability: 65,
+        product: "Canecas",
+        campaign: "Brindes Corporativos",
+        source: "Instagram Ads",
       },
     ],
   },
@@ -76,7 +86,10 @@ const initialColumns: PipelineColumn[] = [
         owner: "Matheus",
         nextAction: "Hoje, 16:20",
         priority: "Alta",
-        probability: 88
+        probability: 88,
+        product: "Roupas",
+        campaign: "Uniformes Corporativos",
+        source: "LinkedIn",
       },
       {
         id: 4,
@@ -86,7 +99,10 @@ const initialColumns: PipelineColumn[] = [
         owner: "André",
         nextAction: "25 jul, 11:00",
         priority: "Baixa",
-        probability: 52
+        probability: 52,
+        product: "Livros",
+        campaign: "Coleção Executiva",
+        source: "Google Ads",
       },
     ],
   },
@@ -104,6 +120,9 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "Hoje, 14:30",
         priority: "Alta",
         probability: 96,
+        product: "Livros",
+        campaign: "Campanha Liderança 2026",
+        source: "Meta Ads",
       },
       {
         id: 6,
@@ -114,6 +133,9 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "Amanhã, 10:00",
         priority: "Média",
         probability: 74,
+        product: "Canecas",
+        campaign: "Brindes Corporativos",
+        source: "WhatsApp",
       },
     ],
   },
@@ -131,8 +153,17 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "26 jul, 13:00",
         priority: "Alta",
         probability: 83,
+        product: "Roupas",
+        campaign: "Uniformes Corporativos",
+        source: "Indicação",
       },
     ],
+  },
+  {
+    id: "negociacao",
+    title: "Negociação",
+    description: "Ajustes finais e decisão comercial",
+    leads: [],
   },
   {
     id: "fechado",
@@ -147,7 +178,10 @@ const initialColumns: PipelineColumn[] = [
         owner: "Gabriel",
         nextAction: "Contrato aprovado",
         priority: "Média",
-        probability: 100
+        probability: 100,
+        product: "Livros",
+        campaign: "Coleção Executiva",
+        source: "E-mail",
       },
     ],
   },
@@ -164,6 +198,7 @@ const columnColors: Record<string, string> = {
   qualificado: "#b3262d",
   contato: "#f59e0b",
   proposta: "#8b5cf6",
+  negociacao: "#e11d48",
   fechado: "#10b981",
 };
 
@@ -172,8 +207,19 @@ const columnBackgrounds: Record<string, string> = {
   qualificado: "from-[#b3262d]/12",
   contato: "from-amber-500/8",
   proposta: "from-violet-500/8",
+  negociacao: "from-rose-500/8",
   fechado: "from-emerald-500/8",
 };
+
+
+type ProductFilter = "Todos" | PipelineLead["product"];
+
+const productFilters: ProductFilter[] = [
+  "Todos",
+  "Roupas",
+  "Canecas",
+  "Livros",
+];
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("pt-BR", {
@@ -207,6 +253,8 @@ function getProbabilityColor(probability: number) {
 
 export default function PipelinePage() {
   const [columns, setColumns] = useState(initialColumns);
+  const [selectedProduct, setSelectedProduct] = useState<ProductFilter>("Todos");
+  const [closedMessage, setClosedMessage] = useState("");
   const [selectedLead, setSelectedLead] =
   useState<PipelineLead | null>(null);
   const [draggedLead, setDraggedLead] = useState<{
@@ -253,10 +301,32 @@ export default function PipelinePage() {
       })
     );
 
+    if (targetColumnId === "fechado") {
+      setClosedMessage(
+        `${draggedLead.lead.name} foi convertido em cliente — ${formatCurrency(
+          draggedLead.lead.value
+        )}.`
+      );
+
+      window.setTimeout(() => {
+        setClosedMessage("");
+      }, 3500);
+    }
+
     setDraggedLead(null);
   }
 
-  const totalPipeline = columns.reduce(
+  const visibleColumns =
+    selectedProduct === "Todos"
+      ? columns
+      : columns.map((column) => ({
+          ...column,
+          leads: column.leads.filter(
+            (lead) => lead.product === selectedProduct
+          ),
+        }));
+
+  const totalPipeline = visibleColumns.reduce(
     (total, column) =>
       total +
       column.leads.reduce(
@@ -266,7 +336,7 @@ export default function PipelinePage() {
     0
   );
 
-  const totalLeads = columns.reduce(
+  const totalLeads = visibleColumns.reduce(
     (total, column) => total + column.leads.length,
     0
   );
@@ -275,13 +345,13 @@ export default function PipelinePage() {
 
 const averageProbability =
   Math.round(
-    columns
+    visibleColumns
       .flatMap((column) => column.leads)
       .reduce((total, lead) => total + lead.probability, 0) / totalLeads
   );
 
 const expectedRevenue = Math.round(
-  columns
+  visibleColumns
     .flatMap((column) => column.leads)
     .reduce(
       (total, lead) =>
@@ -290,12 +360,20 @@ const expectedRevenue = Math.round(
     )
 );
 
-const biggestOpportunity = columns
+const biggestOpportunity = visibleColumns
   .flatMap((column) => column.leads)
   .sort((a, b) => b.value - a.value)[0];
 
   return (
     <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">
+      {closedMessage && (
+        <div className="fixed right-6 top-6 z-[100] rounded-2xl border border-emerald-500/20 bg-[#101711] px-5 py-4 shadow-2xl">
+          <p className="text-sm font-semibold text-emerald-300">
+            Venda fechada
+          </p>
+          <p className="mt-1 text-xs text-zinc-400">{closedMessage}</p>
+        </div>
+      )}
       <div className="mx-auto max-w-[1800px]">
         <header className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
                 <div>
@@ -329,7 +407,35 @@ const biggestOpportunity = columns
                 </div>
               </header>
 
-              <section className="grid gap-5 xl:grid-cols-5">
+              <section className="mt-7 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <p className="text-sm font-medium text-zinc-200">
+                    Visualizar por produto
+                  </p>
+                  <p className="mt-1 text-xs text-zinc-600">
+                    Acompanhe a jornada dos leads de cada campanha.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {productFilters.map((product) => (
+                    <button
+                      key={product}
+                      type="button"
+                      onClick={() => setSelectedProduct(product)}
+                      className={`rounded-xl px-4 py-2 text-sm font-medium transition ${
+                        selectedProduct === product
+                          ? "bg-[#b3262d] text-white shadow-[0_8px_22px_rgba(179,38,45,0.22)]"
+                          : "border border-white/10 bg-white/[0.03] text-zinc-400 hover:bg-white/[0.06] hover:text-white"
+                      }`}
+                    >
+                      {product}
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+              <section className="mt-5 grid gap-5 xl:grid-cols-5">
   <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
     <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
       Pipeline Total
@@ -411,7 +517,7 @@ const biggestOpportunity = columns
 <div className="mt-6 overflow-hidden rounded-3xl border border-white/5 bg-[#0b0b0d]">
   <section className="overflow-x-auto px-4 py-4">
           <div className="flex min-w-max gap-6 pr-6">
-            {columns.map((column) => {
+            {visibleColumns.map((column) => {
               const columnTotal = column.leads.reduce(
                 (total, lead) => total + lead.value,
                 0
@@ -510,6 +616,20 @@ const biggestOpportunity = columns
                             <Building2 className="h-4 w-4" />
                             {lead.company}
                           </div>
+
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            <span className="rounded-full border border-[#b3262d]/20 bg-[#b3262d]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#ef8b90]">
+                              {lead.product}
+                            </span>
+
+                            <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] text-zinc-400">
+                              {lead.source}
+                            </span>
+                          </div>
+
+                          <p className="mt-3 text-xs leading-5 text-zinc-500">
+                            Campanha: <span className="text-zinc-300">{lead.campaign}</span>
+                          </p>
                         </div>
 
                         <GripVertical className="h-4 w-4 text-zinc-700 transition group-hover:text-zinc-500" />
@@ -595,7 +715,7 @@ const biggestOpportunity = columns
                           Score Comercial
                         </span>
                       </div>
-</article>
+                        </article>
                     ))}
 
                     {column.leads.length === 0 && (
@@ -641,6 +761,15 @@ const biggestOpportunity = columns
                 <div className="mt-2 flex items-center gap-2 text-sm text-zinc-500">
                   <Building2 className="h-4 w-4" />
                   {selectedLead.company}
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="rounded-full border border-[#b3262d]/20 bg-[#b3262d]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#ef8b90]">
+                    {selectedLead.product}
+                  </span>
+                  <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] text-zinc-400">
+                    {selectedLead.source}
+                  </span>
                 </div>
               </div>
 
@@ -775,6 +904,18 @@ const biggestOpportunity = columns
                     </div>
                   </div>
 
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
+                    <p className="text-xs uppercase tracking-[0.16em] text-zinc-600">
+                      Campanha de origem
+                    </p>
+                    <p className="mt-2 text-sm font-medium text-white">
+                      {selectedLead.campaign}
+                    </p>
+                    <p className="mt-1 text-xs text-zinc-500">
+                      {selectedLead.source} · Produto: {selectedLead.product}
+                    </p>
+                  </div>
+
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5">
                       <Phone className="h-5 w-5 text-zinc-400" />
@@ -847,6 +988,3 @@ const biggestOpportunity = columns
     </div>
   );
 }
-
-
-    
