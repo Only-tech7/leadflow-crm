@@ -15,10 +15,21 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  convertOpportunityToCustomer,
+  getLeadHistory,
+  getPipelineOpportunities,
+  registerPipelineStageChange,
+  savePipelineOpportunities,
+  type CrmHistoryEvent,
+  type PipelineOpportunity,
+  type PipelineStage,
+} from "@/data/crm";
 
 type PipelineLead = {
   id: number;
+  leadId: number;
   name: string;
   company: string;
   value: number;
@@ -47,6 +58,7 @@ const initialColumns: PipelineColumn[] = [
     leads: [
       {
         id: 1,
+        leadId: 1,
         name: "Mariana Alves",
         company: "Grupo Horizonte",
         value: 18000,
@@ -60,6 +72,7 @@ const initialColumns: PipelineColumn[] = [
       },
       {
         id: 2,
+        leadId: 2,
         name: "Felipe Andrade",
         company: "Instituto Aurora",
         value: 8500,
@@ -80,6 +93,7 @@ const initialColumns: PipelineColumn[] = [
     leads: [
       {
         id: 3,
+        leadId: 3,
         name: "Camila Rocha",
         company: "Farmácia Araujo",
         value: 24500,
@@ -93,6 +107,7 @@ const initialColumns: PipelineColumn[] = [
       },
       {
         id: 4,
+        leadId: 4,
         name: "Lucas Martins",
         company: "Cine Brasil",
         value: 12000,
@@ -113,6 +128,7 @@ const initialColumns: PipelineColumn[] = [
     leads: [
       {
         id: 5,
+        leadId: 5,
         name: "Renata Oliveira",
         company: "Acton Experience",
         value: 32000,
@@ -126,6 +142,7 @@ const initialColumns: PipelineColumn[] = [
       },
       {
         id: 6,
+        leadId: 6,
         name: "João Ribeiro",
         company: "Vitta Corporate",
         value: 16000,
@@ -146,6 +163,7 @@ const initialColumns: PipelineColumn[] = [
     leads: [
       {
         id: 7,
+        leadId: 7,
         name: "Beatriz Lima",
         company: "Nexa Eventos",
         value: 41000,
@@ -172,6 +190,7 @@ const initialColumns: PipelineColumn[] = [
     leads: [
       {
         id: 8,
+        leadId: 8,
         name: "Daniel Costa",
         company: "Studio Central",
         value: 27500,
@@ -239,6 +258,16 @@ function formatCompactCurrency(value: number) {
   }).format(value);
 }
 
+function formatHistoryDate(value: string) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(value));
+}
+
+
 function getProbabilityColor(probability: number) {
   if (probability >= 85) {
     return "bg-emerald-400";
@@ -249,6 +278,25 @@ function getProbabilityColor(probability: number) {
   }
 
   return "bg-amber-400";
+}
+
+function opportunityToLead(
+  opportunity: PipelineOpportunity,
+): PipelineLead {
+  return {
+    id: opportunity.id,
+    leadId: opportunity.leadId,
+    name: opportunity.name,
+    company: opportunity.company,
+    value: opportunity.value,
+    owner: opportunity.owner,
+    nextAction: opportunity.nextAction,
+    priority: opportunity.priority,
+    probability: opportunity.probability,
+    product: opportunity.product,
+    campaign: opportunity.campaign,
+    source: opportunity.source,
+  };
 }
 
 export default function PipelinePage() {
@@ -262,6 +310,53 @@ export default function PipelinePage() {
     sourceColumnId: string;
   } | null>(null);
 
+  const [leadHistory, setLeadHistory] = useState<CrmHistoryEvent[]>([]);
+
+  useEffect(() => {
+    if (!selectedLead) {
+      setLeadHistory([]);
+      return;
+    }
+
+    setLeadHistory(getLeadHistory(selectedLead.leadId));
+  }, [selectedLead]);
+
+  useEffect(() => {
+    const storedOpportunities = getPipelineOpportunities();
+
+    setColumns((currentColumns) => {
+      const storedIds = new Set(
+        storedOpportunities.map((opportunity) => opportunity.id),
+      );
+
+      // O localStorage é a fonte de verdade para oportunidades já persistidas.
+      // Removemos as versões estáticas desses cards e recolocamos cada uma
+      // exatamente na etapa em que foi salva.
+      const columnsWithoutStoredOpportunities = currentColumns.map((column) => ({
+        ...column,
+        leads: column.leads.filter((lead) => !storedIds.has(lead.id)),
+      }));
+
+      return columnsWithoutStoredOpportunities.map((column) => {
+        const opportunitiesForColumn = storedOpportunities.filter(
+          (opportunity) => opportunity.stage === column.id,
+        );
+
+        if (opportunitiesForColumn.length === 0) {
+          return column;
+        }
+
+        return {
+          ...column,
+          leads: [
+            ...opportunitiesForColumn.map(opportunityToLead),
+            ...column.leads,
+          ],
+        };
+      });
+    });
+  }, []);
+
   function handleDragStart(lead: PipelineLead, sourceColumnId: string) {
     setDraggedLead({
       lead,
@@ -270,51 +365,129 @@ export default function PipelinePage() {
   }
 
   function handleDrop(targetColumnId: string) {
-    if (!draggedLead) {
-      return;
-    }
+  if (!draggedLead) {
+    return;
+  }
 
-    if (draggedLead.sourceColumnId === targetColumnId) {
-      setDraggedLead(null);
-      return;
-    }
+  if (draggedLead.sourceColumnId === targetColumnId) {
+    setDraggedLead(null);
+    return;
+  }
 
-    setColumns((currentColumns) =>
-      currentColumns.map((column) => {
-        if (column.id === draggedLead.sourceColumnId) {
-          return {
-            ...column,
-            leads: column.leads.filter(
-              (lead) => lead.id !== draggedLead.lead.id
-            ),
-          };
-        }
+  const movedLead = draggedLead.lead;
 
-        if (column.id === targetColumnId) {
-          return {
-            ...column,
-            leads: [...column.leads, draggedLead.lead],
-          };
-        }
+  const sourceStage =
+    draggedLead.sourceColumnId as PipelineStage;
 
-        return column;
-      })
-    );
+  const targetStage =
+    targetColumnId as PipelineStage;
 
-    if (targetColumnId === "fechado") {
-      setClosedMessage(
-        `${draggedLead.lead.name} foi convertido em cliente — ${formatCurrency(
-          draggedLead.lead.value
-        )}.`
+  /*
+   * Montamos a oportunidade que está sendo movimentada.
+   * Ela será usada tanto no histórico quanto na conversão.
+   */
+  const movedOpportunity: PipelineOpportunity = {
+    id: movedLead.id,
+    leadId: movedLead.leadId,
+    name: movedLead.name,
+    company: movedLead.company,
+    product: movedLead.product,
+    campaign: movedLead.campaign,
+    source: movedLead.source,
+    value: movedLead.value,
+    owner: movedLead.owner,
+    nextAction: movedLead.nextAction,
+    priority: movedLead.priority,
+    probability: movedLead.probability,
+    stage: targetStage,
+  };
+
+  /*
+   * Atualiza visualmente a Pipeline
+   * e persiste a nova posição no localStorage.
+   */
+  setColumns((currentColumns) => {
+    const updatedColumns = currentColumns.map((column) => {
+      if (column.id === draggedLead.sourceColumnId) {
+        return {
+          ...column,
+          leads: column.leads.filter(
+            (lead) => lead.id !== movedLead.id,
+          ),
+        };
+      }
+
+      if (column.id === targetColumnId) {
+        return {
+          ...column,
+          leads: [...column.leads, movedLead],
+        };
+      }
+
+      return column;
+    });
+
+    const opportunities: PipelineOpportunity[] =
+      updatedColumns.flatMap((column) =>
+        column.leads.map((lead) => ({
+          id: lead.id,
+          leadId: lead.leadId,
+          name: lead.name,
+          company: lead.company,
+          product: lead.product,
+          campaign: lead.campaign,
+          source: lead.source,
+          value: lead.value,
+          owner: lead.owner,
+          nextAction: lead.nextAction,
+          priority: lead.priority,
+          probability: lead.probability,
+          stage: column.id as PipelineStage,
+        })),
       );
 
-      window.setTimeout(() => {
-        setClosedMessage("");
-      }, 3500);
+    savePipelineOpportunities(opportunities);
+
+    return updatedColumns;
+  });
+
+  /*
+   * NOVO:
+   * registra a movimentação real no histórico.
+   */
+  registerPipelineStageChange(
+    movedOpportunity,
+    sourceStage,
+    targetStage,
+  );
+
+  /*
+   * Se chegou em Fechado,
+   * transforma a oportunidade em cliente.
+   */
+  if (targetStage === "fechado") {
+    const customerResult =
+      convertOpportunityToCustomer(movedOpportunity);
+
+    if (customerResult.success) {
+      setClosedMessage(
+        `${movedLead.name} virou cliente — ${formatCurrency(
+          movedLead.value,
+        )}.`,
+      );
+    } else {
+      setClosedMessage(
+        `${movedLead.name} já estava registrado como cliente.`,
+      );
     }
 
-    setDraggedLead(null);
+    window.setTimeout(() => {
+      setClosedMessage("");
+    }, 3500);
   }
+
+  setDraggedLead(null);
+}
 
   const visibleColumns =
     selectedProduct === "Todos"
@@ -341,14 +514,20 @@ export default function PipelinePage() {
     0
   );
 
-  const averageTicket = totalPipeline / totalLeads;
+  const averageTicket = 
+  totalLeads > 0 ? totalPipeline / totalLeads : 0;
 
 const averageProbability =
-  Math.round(
-    visibleColumns
-      .flatMap((column) => column.leads)
-      .reduce((total, lead) => total + lead.probability, 0) / totalLeads
-  );
+  totalLeads > 0
+    ? Math.round(
+        visibleColumns
+          .flatMap((column) => column.leads)
+          .reduce(
+            (total, lead) => total + lead.probability,
+            0,
+          ) / totalLeads,
+      )
+    : 0;
 
 const expectedRevenue = Math.round(
   visibleColumns
@@ -360,9 +539,10 @@ const expectedRevenue = Math.round(
     )
 );
 
-const biggestOpportunity = visibleColumns
-  .flatMap((column) => column.leads)
-  .sort((a, b) => b.value - a.value)[0];
+const biggestOpportunity =
+  visibleColumns
+    .flatMap((column) => column.leads)
+    .sort((a, b) => b.value - a.value)[0] ?? null;
 
   return (
     <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">
@@ -500,17 +680,25 @@ const biggestOpportunity = visibleColumns
       Maior oportunidade
     </p>
 
-    <h2 className="mt-3 text-xl font-semibold text-white">
-      {biggestOpportunity.company}
-    </h2>
+    {biggestOpportunity ? (
+      <>
+        <h2 className="mt-3 text-xl font-semibold text-white">
+          {biggestOpportunity.company}
+        </h2>
 
-    <p className="mt-2 text-zinc-400">
-      {biggestOpportunity.name}
-    </p>
+        <p className="mt-2 text-zinc-400">
+          {biggestOpportunity.name}
+        </p>
 
-    <div className="mt-5 text-2xl font-bold text-[#ef8b90]">
-      {formatCurrency(biggestOpportunity.value)}
-    </div>
+        <div className="mt-5 text-2xl font-bold text-[#ef8b90]">
+          {formatCurrency(biggestOpportunity.value)}
+        </div>
+      </>
+    ) : (
+      <p className="mt-4 text-sm text-zinc-500">
+        Nenhuma oportunidade neste filtro.
+      </p>
+    )}
   </div>
 </section>
 
@@ -932,45 +1120,93 @@ const biggestOpportunity = visibleColumns
               </div>
 
               <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.02] p-5">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-semibold text-white">
-                    Histórico recente
-                  </h3>
+  <div className="flex items-center justify-between">
+    <div>
+      <h3 className="text-sm font-semibold text-white">
+        Histórico comercial
+      </h3>
 
-                  <button
-                    type="button"
-                    className="text-xs font-medium text-[#ef8b90] hover:text-white"
-                  >
-                    Ver tudo
-                  </button>
+      <p className="mt-1 text-xs text-zinc-600">
+        Movimentações registradas nesta oportunidade.
+      </p>
+    </div>
+
+    <span className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-[10px] font-medium text-zinc-500">
+      {leadHistory.length} eventos
+    </span>
+  </div>
+
+  {leadHistory.length > 0 ? (
+    <div className="mt-6">
+      {[...leadHistory]
+        .reverse()
+        .slice(0, 6)
+        .map((event, index, events) => {
+          const isLast = index === events.length - 1;
+
+          return (
+            <div
+              key={event.id}
+              className="relative flex gap-4 pb-6 last:pb-0"
+            >
+              {!isLast && (
+                <div className="absolute left-[5px] top-4 h-[calc(100%-4px)] w-px bg-white/[0.08]" />
+              )}
+
+              <div
+                className={`relative z-10 mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-[#0d0d0f] ${
+                  event.type === "converted"
+                    ? "bg-emerald-400"
+                    : event.type === "stage_changed"
+                      ? "bg-[#b3262d]"
+                      : "bg-zinc-500"
+                }`}
+              />
+
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-4">
+                  <p className="text-sm font-medium text-zinc-200">
+                    {event.title}
+                  </p>
+
+                  <span className="shrink-0 text-[10px] text-zinc-700">
+                    {formatHistoryDate(event.createdAt)}
+                  </span>
                 </div>
 
-                <div className="mt-5 border-l border-white/10 pl-5">
-                  <div className="relative pb-6">
-                    <span className="absolute -left-[25px] top-1 h-2 w-2 rounded-full bg-[#b3262d]" />
+                <p className="mt-1 text-xs leading-5 text-zinc-500">
+                  {event.description}
+                </p>
 
-                    <p className="text-sm text-white">
-                      Oportunidade adicionada ao pipeline
-                    </p>
+                {event.fromStage && event.toStage && (
+                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.025] px-2.5 py-1 text-[10px] text-zinc-600">
+                    <span>{event.fromStage}</span>
 
-                    <p className="mt-1 text-xs text-zinc-500">
-                      Registrada por {selectedLead.owner}
-                    </p>
+                    <span>→</span>
+
+                    <span className="text-zinc-400">
+                      {event.toStage}
+                    </span>
                   </div>
-
-                  <div className="relative">
-                    <span className="absolute -left-[25px] top-1 h-2 w-2 rounded-full bg-zinc-600" />
-
-                    <p className="text-sm text-white">
-                      Próxima atividade programada
-                    </p>
-
-                    <p className="mt-1 text-xs text-zinc-500">
-                      {selectedLead.nextAction}
-                    </p>
-                  </div>
-                </div>
+                )}
               </div>
+            </div>
+          );
+        })}
+    </div>
+  ) : (
+    <div className="mt-5 rounded-2xl border border-dashed border-white/[0.08] px-4 py-8 text-center">
+      <p className="text-xs text-zinc-600">
+        Nenhum histórico registrado para esta oportunidade.
+      </p>
+
+      <p className="mt-2 text-[10px] leading-5 text-zinc-700">
+        As próximas movimentações no Pipeline serão registradas automaticamente.
+      </p>
+    </div>
+  )}
+</div>
+
             </div>
 
             <div className="border-t border-white/10 bg-[#0a0a0c] p-5">

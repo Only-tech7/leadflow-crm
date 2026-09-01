@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { crmLeads, saveLeads, sendLeadToPipeline } from "@/data/crm";
 
 import {
   ArrowDownUp,
@@ -48,80 +49,8 @@ const leadStats = [
   },
 ];
 
-const leads = [
-  {
-    id: 1,
-    name: "Mariana Souza",
-    role: "Diretora de Marketing",
-    company: "Lumina Eventos",
-    origin: "LinkedIn",
-    score: 94,
-    status: "Qualificado",
-    nextAction: "Reunião hoje, 10h",
-    owner: "Matheus",
-    initials: "MS",
-  },
-  {
-    id: 2,
-    name: "Carlos Mendes",
-    role: "Gerente Comercial",
-    company: "Grupo Vertex",
-    origin: "Indicação",
-    score: 89,
-    status: "Em contato",
-    nextAction: "Enviar proposta",
-    owner: "Ana",
-    initials: "CM",
-  },
-  {
-    id: 3,
-    name: "Fernanda Lima",
-    role: "Coordenadora de Eventos",
-    company: "Horizonte Produções",
-    origin: "Site",
-    score: 82,
-    status: "Novo",
-    nextAction: "Ligar amanhã, 9h",
-    owner: "Lucas",
-    initials: "FL",
-  },
-  {
-    id: 4,
-    name: "Rafael Oliveira",
-    role: "CEO",
-    company: "Norte Experience",
-    origin: "LinkedIn",
-    score: 76,
-    status: "Aguardando retorno",
-    nextAction: "Follow-up em 2 dias",
-    owner: "Matheus",
-    initials: "RO",
-  },
-  {
-    id: 5,
-    name: "Juliana Castro",
-    role: "Head de Marketing",
-    company: "Atlas Comunicação",
-    origin: "Campanha",
-    score: 71,
-    status: "Em contato",
-    nextAction: "Enviar apresentação",
-    owner: "Ana",
-    initials: "JC",
-  },
-  {
-    id: 6,
-    name: "Pedro Martins",
-    role: "Gerente de Novos Negócios",
-    company: "Motion Eventos",
-    origin: "Apollo",
-    score: 62,
-    status: "Sem resposta",
-    nextAction: "Revisar abordagem",
-    owner: "Lucas",
-    initials: "PM",
-  },
-];
+
+
 
 const statusStyles: Record<string, string> = {
   Qualificado:
@@ -154,10 +83,10 @@ export default function LeadsPage() {
   const [sortBy, setSortBy] = useState("score-desc");
 
   const [selectedLead, setSelectedLead] =
-    useState<(typeof leads)[number] | null>(null);
+    useState<(typeof crmLeads)[number] | null>(null);
 
   const [isAddLeadModalOpen, setIsAddLeadModalOpen] = useState(false);
-  const [leadList, setLeadList] = useState(leads);
+  const [leadList, setLeadList] = useState(crmLeads);
   const [successMessage, setSuccessMessage] = useState("");
 
   const filteredLeads = useMemo(() => {
@@ -212,28 +141,45 @@ export default function LeadsPage() {
     setSortBy("score-desc");
   }
 
-  function handleAddLead(newLead: NewLeadData) {
-    const initials = newLead.name
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((part) => part.charAt(0).toUpperCase())
-      .join("");
+    function handleAddLead(newLead: NewLeadData) {
+  const initials = newLead.name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("");
 
-    const lead = {
-      id: Date.now(),
-      ...newLead,
-      initials,
-    };
+  const lead = {
+    id: Date.now(),
+    ...newLead,
+    initials,
+  };
 
-    setLeadList((currentLeads) => [lead, ...currentLeads]);
+  setLeadList((currentLeads) => {
+    const updatedLeads = [lead, ...currentLeads];
 
-    setSuccessMessage(`${newLead.name} foi adicionado com sucesso.`);
+    saveLeads(updatedLeads);
 
-    window.setTimeout(() => {
-      setSuccessMessage("");
-    }, 3000);
+    return updatedLeads;
+  });
+
+  const pipelineResult = sendLeadToPipeline(lead);
+
+  if (pipelineResult.success) {
+    setSuccessMessage(
+      `${newLead.name} foi adicionado e enviado para o Pipeline.`,
+    );
+  } else {
+    setSuccessMessage(
+      `${newLead.name} foi adicionado. A oportunidade já existia no Pipeline.`,
+    );
   }
+
+  window.setTimeout(() => {
+    setSuccessMessage("");
+  }, 3000);
+}
+
 
   return (
     <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">

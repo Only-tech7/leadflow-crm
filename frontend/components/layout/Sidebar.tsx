@@ -13,7 +13,9 @@ import {
   Mail,
   Settings,
   Sparkles,
-  Users,
+   UserCheck,
+    Users,
+  
 } from "lucide-react";
 
 const navigationSections = [
@@ -49,6 +51,12 @@ const navigationSections = [
         title: "Pipeline",
         href: "/pipeline",
         icon: KanbanSquare,
+      },
+
+      {
+        title: "Clientes",
+        href: "/customers",
+        icon: UserCheck,
       },
       {
         title: "Campanhas",
