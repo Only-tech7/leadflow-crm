@@ -545,384 +545,328 @@ const biggestOpportunity =
     .sort((a, b) => b.value - a.value)[0] ?? null;
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">
+    <div className="min-h-screen px-6 py-7 text-white lg:px-8 lg:py-9">
       {closedMessage && (
-        <div className="fixed right-6 top-6 z-[100] rounded-2xl border border-emerald-500/20 bg-[#101711] px-5 py-4 shadow-2xl">
-          <p className="text-sm font-semibold text-emerald-300">
-            Venda fechada
-          </p>
-          <p className="mt-1 text-xs text-zinc-400">{closedMessage}</p>
+        <div className="fixed right-6 top-24 z-[100] min-w-[320px] border border-emerald-400/20 bg-[#090d0a]/95 px-5 py-4 shadow-[0_24px_80px_rgba(0,0,0,.55)] backdrop-blur-xl">
+          <div className="flex items-center gap-3">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,.8)]" />
+            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-300">
+              Deal / Closed
+            </p>
+          </div>
+          <p className="mt-3 text-sm text-zinc-300">{closedMessage}</p>
         </div>
       )}
-      <div className="mx-auto max-w-[1800px]">
-        <header className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
-                <div>
-                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#b3262d]/20 bg-[#b3262d]/10 px-3 py-1.5 text-xs font-medium text-[#ef8b90]">
-                    <CircleDollarSign className="h-3.5 w-3.5" />
-                    Pipeline Executivo
-                  </div>
 
-                  <h1 className="text-4xl font-semibold tracking-[-0.04em] text-zinc-100">
-                    Pipeline Comercial
-                  </h1>
+      <div className="mx-auto max-w-[1900px]">
+        <header className="border-b border-white/[0.07] pb-7">
+          <div className="flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
+            <div>
+              <div className="flex items-center gap-4 font-mono text-[9px] uppercase tracking-[0.24em]">
+                <span className="text-[#d84a50]">03 / Pipeline</span>
+                <span className="h-px w-12 bg-white/[0.09]" />
+                <span className="text-zinc-500">Live Operation</span>
+              </div>
 
-                  <p className="mt-4 max-w-3xl text-sm leading-6 text-zinc-500">
-                    Visualize todas as negociações, acompanhe a evolução das
-                    oportunidades e identifique rapidamente onde concentrar os
-                    esforços da equipe comercial.
-                  </p>
-                </div>
+              <h1 className="mt-6 text-4xl font-semibold tracking-[-0.045em] text-zinc-100 sm:text-5xl">
+                Pipeline Comercial
+              </h1>
 
-                <div className="flex gap-3">
-                  <button className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 text-sm text-zinc-300 transition hover:bg-white/[0.05]">
-                    Todos os responsáveis
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-500">
+                Acompanhe o fluxo das oportunidades e mova cada negociação entre as etapas da operação.
+              </p>
+            </div>
 
-                    <ChevronDown className="h-4 w-4" />
-                  </button>
+            <div className="flex flex-wrap items-center gap-3">
+              <button className="inline-flex h-10 items-center gap-2 border border-white/[0.08] bg-black/10 px-4 text-xs text-zinc-500 transition hover:border-white/[0.14] hover:text-zinc-200">
+                Todos os responsáveis
+                <ChevronDown className="h-3.5 w-3.5" />
+              </button>
 
-                  <button className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#b3262d] px-5 text-sm font-medium text-white shadow-[0_12px_30px_rgba(179,38,45,.25)] transition hover:bg-[#9d1f26]">
-                    <Plus className="h-4 w-4" />
-                    Nova oportunidade
-                  </button>
-                </div>
-              </header>
+              <button className="inline-flex h-10 items-center gap-2 border border-[#b3262d]/45 bg-[#b3262d]/10 px-4 text-xs font-medium text-[#ef8b90] transition hover:bg-[#b3262d]/20 hover:text-white">
+                <Plus className="h-3.5 w-3.5" />
+                Nova oportunidade
+              </button>
+            </div>
+          </div>
+        </header>
 
-              <section className="mt-7 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-4 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <p className="text-sm font-medium text-zinc-200">
-                    Visualizar por produto
-                  </p>
-                  <p className="mt-1 text-xs text-zinc-600">
-                    Acompanhe a jornada dos leads de cada campanha.
-                  </p>
-                </div>
+        <section className="grid border-b border-white/[0.07] xl:grid-cols-[1.35fr_repeat(4,1fr)]">
+          <div className="border-b border-white/[0.07] py-6 xl:border-b-0 xl:border-r xl:pr-7">
+            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">
+              01 / Pipeline Total
+            </p>
+            <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-zinc-100">
+              {formatCurrency(totalPipeline)}
+            </p>
+            <p className="mt-2 text-xs text-zinc-400">Valor bruto em negociação</p>
+          </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {productFilters.map((product) => (
-                    <button
-                      key={product}
-                      type="button"
-                      onClick={() => setSelectedProduct(product)}
-                      className={`rounded-xl px-4 py-2 text-sm font-medium transition ${
-                        selectedProduct === product
-                          ? "bg-[#b3262d] text-white shadow-[0_8px_22px_rgba(179,38,45,0.22)]"
-                          : "border border-white/10 bg-white/[0.03] text-zinc-400 hover:bg-white/[0.06] hover:text-white"
-                      }`}
-                    >
-                      {product}
-                    </button>
-                  ))}
-                </div>
-              </section>
+          <div className="border-b border-white/[0.07] py-6 xl:border-b-0 xl:border-r xl:px-7">
+            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">
+              02 / Receita Prevista
+            </p>
+            <p className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[#ef8b90]">
+              {formatCurrency(expectedRevenue)}
+            </p>
+            <p className="mt-2 text-xs text-zinc-400">Probabilidade ponderada</p>
+          </div>
 
-              <section className="mt-5 grid gap-5 xl:grid-cols-5">
-  <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-    <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
-      Pipeline Total
-    </p>
+          <div className="border-b border-white/[0.07] py-6 xl:border-b-0 xl:border-r xl:px-7">
+            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">
+              03 / Ticket Médio
+            </p>
+            <p className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-zinc-200">
+              {formatCompactCurrency(averageTicket)}
+            </p>
+            <p className="mt-2 text-xs text-zinc-400">{totalLeads} oportunidades</p>
+          </div>
 
-    <h2 className="mt-3 text-3xl font-semibold text-white">
-      {formatCurrency(totalPipeline)}
-    </h2>
+          <div className="border-b border-white/[0.07] py-6 xl:border-b-0 xl:border-r xl:px-7">
+            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">
+              04 / Probabilidade
+            </p>
+            <div className="mt-3 flex items-end gap-3">
+              <p className="text-2xl font-semibold text-zinc-200">{averageProbability}%</p>
+              <div className="mb-1 h-px flex-1 bg-white/[0.06]">
+                <div className="h-px bg-[#b3262d]" style={{ width: `${averageProbability}%` }} />
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-zinc-400">Média de fechamento</p>
+          </div>
 
-    <p className="mt-2 text-sm text-zinc-500">
-      Valor bruto das oportunidades
-    </p>
-  </div>
+          <div className="py-6 xl:pl-7">
+            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">
+              05 / Maior oportunidade
+            </p>
+            {biggestOpportunity ? (
+              <>
+                <p className="mt-3 truncate text-sm font-medium text-zinc-300">
+                  {biggestOpportunity.company}
+                </p>
+                <p className="mt-1 text-xl font-semibold text-zinc-100">
+                  {formatCurrency(biggestOpportunity.value)}
+                </p>
+              </>
+            ) : (
+              <p className="mt-3 text-xs text-zinc-400">Sem oportunidades</p>
+            )}
+          </div>
+        </section>
 
-  <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-    <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
-      Receita Prevista
-    </p>
+        <section className="flex flex-col gap-5 border-b border-white/[0.07] py-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-500">View /</span>
+            <span className="text-xs text-zinc-400">
+              {selectedProduct === "Todos" ? "Operação consolidada" : selectedProduct}
+            </span>
+          </div>
 
-    <h2 className="mt-3 text-3xl font-semibold text-[#ef8b90]">
-      {formatCurrency(expectedRevenue)}
-    </h2>
+          <div className="flex flex-wrap items-center gap-1">
+            {productFilters.map((product) => (
+              <button
+                key={product}
+                type="button"
+                onClick={() => setSelectedProduct(product)}
+                className={`relative px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.18em] transition ${
+                  selectedProduct === product
+                    ? "text-white"
+                    : "text-zinc-500 hover:text-zinc-400"
+                }`}
+              >
+                {product}
+                {selectedProduct === product && (
+                  <span className="absolute inset-x-3 -bottom-[1px] h-px bg-[#d84a50] shadow-[0_0_10px_rgba(216,74,80,.55)]" />
+                )}
+              </button>
+            ))}
+          </div>
+        </section>
 
-    <p className="mt-2 text-sm text-zinc-500">
-      Considerando a probabilidade de fechamento
-    </p>
-  </div>
+        <div className="mt-6">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#d84a50] shadow-[0_0_10px_rgba(216,74,80,.65)]" />
+              <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-600">
+                Pipeline Signal / Drag Enabled
+              </p>
+            </div>
+            <p className="hidden font-mono text-[8px] uppercase tracking-[0.2em] text-zinc-800 sm:block">
+              LF / BOARD-03
+            </p>
+          </div>
 
-  <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-    <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
-      Ticket Médio
-    </p>
+          <section className="overflow-x-auto border-y border-white/[0.06] bg-black/[0.08] py-4">
+            <div className="flex min-w-max gap-3 px-1 pr-6">
+              {visibleColumns.map((column, columnIndex) => {
+                const columnTotal = column.leads.reduce(
+                  (total, lead) => total + lead.value,
+                  0,
+                );
+                const isDropTarget =
+                  draggedLead && draggedLead.sourceColumnId !== column.id;
 
-    <h2 className="mt-3 text-3xl font-semibold text-white">
-      {formatCompactCurrency(averageTicket)}
-    </h2>
-
-    <p className="mt-2 text-sm text-zinc-500">
-      Média por oportunidade
-    </p>
-  </div>
-
-  <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-    <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
-      Probabilidade Média
-    </p>
-
-    <h2 className="mt-3 text-3xl font-semibold text-white">
-      {averageProbability}%
-    </h2>
-
-    <div className="mt-4 h-2 rounded-full bg-white/5">
-      <div
-        className="h-2 rounded-full bg-[#b3262d]"
-        style={{ width: `${averageProbability}%` }}
-      />
-    </div>
-  </div>
-
-  <div className="rounded-3xl border border-[#b3262d]/20 bg-gradient-to-br from-[#b3262d]/15 to-transparent p-6">
-    <p className="text-xs uppercase tracking-[0.25em] text-[#ef8b90]">
-      Maior oportunidade
-    </p>
-
-    {biggestOpportunity ? (
-      <>
-        <h2 className="mt-3 text-xl font-semibold text-white">
-          {biggestOpportunity.company}
-        </h2>
-
-        <p className="mt-2 text-zinc-400">
-          {biggestOpportunity.name}
-        </p>
-
-        <div className="mt-5 text-2xl font-bold text-[#ef8b90]">
-          {formatCurrency(biggestOpportunity.value)}
-        </div>
-      </>
-    ) : (
-      <p className="mt-4 text-sm text-zinc-500">
-        Nenhuma oportunidade neste filtro.
-      </p>
-    )}
-  </div>
-</section>
-
-<div className="mt-6 overflow-hidden rounded-3xl border border-white/5 bg-[#0b0b0d]">
-  <section className="overflow-x-auto px-4 py-4">
-          <div className="flex min-w-max gap-6 pr-6">
-            {visibleColumns.map((column) => {
-              const columnTotal = column.leads.reduce(
-                (total, lead) => total + lead.value,
-                0
-              );
-
-              return (
-               <div
+                return (
+                  <div
                     key={column.id}
                     onDragOver={(event) => event.preventDefault()}
                     onDrop={() => handleDrop(column.id)}
-                    className={`
-                  w-[340px]
-                  shrink-0
-                  overflow-hidden
-                  rounded-3xl
-                  border
-                  border-white/10
-                  bg-gradient-to-b
-                  ${columnBackgrounds[column.id]}
-                  to-[#111111]
-                  shadow-xl
-                  transition-all
-                  duration-300
-                  hover:border-white/20
-`}
+                    className={`w-[310px] shrink-0 border-l px-3 pb-5 transition-all duration-300 ${
+                      isDropTarget
+                        ? "border-[#b3262d]/35 bg-[#b3262d]/[0.025]"
+                        : "border-white/[0.07]"
+                    }`}
                   >
-                  <div className="px-1 pb-3">
-                    <div
-                          className="border-b border-white/5 p-5"
-                          style={{
-                            borderTop: `4px solid ${columnColors[column.id]}`,
-                          }}
-                        >
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <h2 className="text-lg font-semibold text-white">
-                                  {column.title}
-                                </h2>
-
-                                <span className="rounded-full bg-white/5 px-2.5 py-1 text-xs font-medium text-zinc-400">
-                                  {column.leads.length}
-                                </span>
-                              </div>
-
-                              <p className="mt-2 text-sm text-zinc-500">
-                                {column.description}
-                              </p>
-                            </div>
-
-                            <button
-                              type="button"
-                              className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-400 transition hover:bg-[#b3262d] hover:text-white"
-                            >
-                              <Plus className="h-4 w-4" />
-                            </button>
-                          </div>
-
-                          <div className="mt-5 rounded-2xl border border-white/5 bg-black/20 p-4">
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">
-                                Total da etapa
-                              </span>
-
-                              <span className="text-xs text-zinc-500">
-                                {column.leads.length} oportunidades
-                              </span>
-                            </div>
-
-                            <div className="mt-2 text-2xl font-bold text-white">
-                              {formatCompactCurrency(columnTotal)}
-                            </div>
-                          </div>
-                          </div>
-
-                   
-                  </div>
-
-                  <div className="space-y-3">
-                    {column.leads.map((lead) => (
-                      <article
-                      key={lead.id}
-                      draggable
-                      onClick={() => setSelectedLead(lead)}
-                      onDragStart={() => handleDragStart(lead, column.id)}
-                      onDragEnd={() => setDraggedLead(null)}
-                      className="group cursor-pointer rounded-2xl border border-white/10 bg-gradient-to-b from-[#181818] to-[#111111] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#b3262d]/40 hover:shadow-[0_18px_40px_rgba(0,0,0,.35)] active:cursor-grabbing"
-                    >
-                      <div className="flex items-start justify-between">
+                    <div className="min-h-[116px] border-b border-white/[0.07] pb-4 pt-2">
+                      <div className="flex items-start justify-between gap-4">
                         <div>
-                          <h3 className="text-base font-semibold text-white">
-                            {lead.name}
-                          </h3>
-
-                          <div className="mt-1 flex items-center gap-2 text-sm text-zinc-500">
-                            <Building2 className="h-4 w-4" />
-                            {lead.company}
-                          </div>
-
-                          <div className="mt-3 flex flex-wrap gap-2">
-                            <span className="rounded-full border border-[#b3262d]/20 bg-[#b3262d]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#ef8b90]">
-                              {lead.product}
-                            </span>
-
-                            <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] text-zinc-400">
-                              {lead.source}
+                          <div className="flex items-center gap-2">
+                            <span
+                              className="h-1.5 w-1.5 rounded-full"
+                              style={{
+                                backgroundColor: columnColors[column.id],
+                                boxShadow: `0 0 10px ${columnColors[column.id]}88`,
+                              }}
+                            />
+                            <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-zinc-500">
+                              {String(columnIndex + 1).padStart(2, "0")}
                             </span>
                           </div>
 
-                          <p className="mt-3 text-xs leading-5 text-zinc-500">
-                            Campanha: <span className="text-zinc-300">{lead.campaign}</span>
+                          <h2 className="mt-3 text-base font-medium text-zinc-200">
+                            {column.title}
+                          </h2>
+                          <p className="mt-1 max-w-[220px] text-[11px] leading-5 text-zinc-500">
+                            {column.description}
                           </p>
                         </div>
 
-                        <GripVertical className="h-4 w-4 text-zinc-700 transition group-hover:text-zinc-500" />
+                        <button
+                          type="button"
+                          className="flex h-8 w-8 items-center justify-center border border-white/[0.06] text-zinc-500 transition hover:border-[#b3262d]/30 hover:text-[#ef8b90]"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                        </button>
                       </div>
 
-                      <div className="mt-5">
-                        <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
-                          Valor da oportunidade
+                      <div className="mt-4 flex items-end justify-between">
+                        <p className="text-xl font-semibold tracking-[-0.03em] text-zinc-200">
+                          {formatCompactCurrency(columnTotal)}
                         </p>
-
-                        <div className="mt-1 text-3xl font-bold text-white">
-                          {formatCurrency(lead.value)}
-                        </div>
+                        <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-zinc-500">
+                          {column.leads.length} {column.leads.length === 1 ? "deal" : "deals"}
+                        </p>
                       </div>
+                    </div>
 
-                      <div className="mt-5">
-                        <div className="mb-2 flex items-center justify-between">
-                          <span className="text-xs text-zinc-500">
-                            Probabilidade
-                          </span>
-
-                          <span className="text-sm font-semibold text-white">
-                            {lead.probability}%
-                          </span>
-                        </div>
-
-                        <div className="h-2 overflow-hidden rounded-full bg-white/5">
-                          <div
-                            className={`h-full rounded-full ${getProbabilityColor(
-                              lead.probability
-                            )}`}
-                            style={{
-                              width: `${lead.probability}%`,
-                            }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="mt-5 grid gap-3 border-t border-white/5 pt-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5">
-                            <UserRound className="h-4 w-4 text-zinc-400" />
-                          </div>
-
-                          <div>
-                            <p className="text-xs text-zinc-500">
-                              Responsável
-                            </p>
-
-                            <p className="text-sm text-white">
-                              {lead.owner}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5">
-                            <CalendarDays className="h-4 w-4 text-zinc-400" />
-                          </div>
-
-                          <div>
-                            <p className="text-xs text-zinc-500">
-                              Próxima ação
-                            </p>
-
-                            <p className="text-sm text-white">
-                              {lead.nextAction}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="mt-5 flex items-center justify-between border-t border-white/5 pt-4">
-                        <span
-                          className={`rounded-full border px-3 py-1 text-xs font-medium ${
-                            priorityStyles[lead.priority]
+                    <div className="space-y-2.5 pt-3">
+                      {column.leads.map((lead) => (
+                        <article
+                          key={lead.id}
+                          draggable
+                          onClick={() => setSelectedLead(lead)}
+                          onDragStart={() => handleDragStart(lead, column.id)}
+                          onDragEnd={() => setDraggedLead(null)}
+                          className={`group cursor-grab border border-white/[0.07] bg-[#0d0d0f]/88 p-4 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#b3262d]/30 hover:bg-[#111114]/95 hover:shadow-[0_14px_40px_rgba(0,0,0,.28)] active:cursor-grabbing ${
+                            draggedLead?.lead.id === lead.id
+                              ? "scale-[0.98] border-[#b3262d]/35 opacity-50"
+                              : ""
                           }`}
                         >
-                          {lead.priority}
-                        </span>
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="truncate text-sm font-medium text-zinc-200">
+                                {lead.name}
+                              </p>
+                              <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-zinc-400">
+                                <Building2 className="h-3 w-3" />
+                                <span className="truncate">{lead.company}</span>
+                              </div>
+                            </div>
+                            <GripVertical className="h-4 w-4 shrink-0 text-zinc-800 transition group-hover:text-zinc-600" />
+                          </div>
 
-                        <span className="text-xs text-zinc-600">
-                          Score Comercial
-                        </span>
-                      </div>
+                          <div className="mt-4 flex items-end justify-between gap-3">
+                            <div>
+                              <p className="font-mono text-[8px] uppercase tracking-[0.17em] text-zinc-500">
+                                Opportunity
+                              </p>
+                              <p className="mt-1 text-xl font-semibold tracking-[-0.035em] text-zinc-100">
+                                {formatCurrency(lead.value)}
+                              </p>
+                            </div>
+                            <span className="text-sm font-semibold text-zinc-300">
+                              {lead.probability}%
+                            </span>
+                          </div>
+
+                          <div className="mt-3 h-px bg-white/[0.06]">
+                            <div
+                              className={`h-px ${getProbabilityColor(lead.probability)}`}
+                              style={{ width: `${lead.probability}%` }}
+                            />
+                          </div>
+
+                          <div className="mt-4 flex flex-wrap gap-x-3 gap-y-2 font-mono text-[8px] uppercase tracking-[0.12em]">
+                            <span className="text-[#d36a6f]">{lead.product}</span>
+                            <span className="text-zinc-500">{lead.source}</span>
+                          </div>
+
+                          <p className="mt-3 line-clamp-1 text-[10px] text-zinc-500">
+                            {lead.campaign}
+                          </p>
+
+                          <div className="mt-4 grid grid-cols-2 gap-3 border-t border-white/[0.055] pt-3">
+                            <div>
+                              <p className="font-mono text-[7px] uppercase tracking-[0.16em] text-zinc-800">
+                                Owner
+                              </p>
+                              <p className="mt-1 text-[11px] text-zinc-500">{lead.owner}</p>
+                            </div>
+                            <div>
+                              <p className="font-mono text-[7px] uppercase tracking-[0.16em] text-zinc-800">
+                                Next Action
+                              </p>
+                              <p className="mt-1 truncate text-[11px] text-zinc-500">
+                                {lead.nextAction}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="mt-3 flex items-center justify-between">
+                            <span
+                              className={`border px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] ${priorityStyles[lead.priority]}`}
+                            >
+                              {lead.priority}
+                            </span>
+                            <span className="font-mono text-[7px] uppercase tracking-[0.16em] text-zinc-800">
+                              Score / {lead.probability}
+                            </span>
+                          </div>
                         </article>
-                    ))}
+                      ))}
 
-                    {column.leads.length === 0 && (
-                      <div className="flex h-28 items-center justify-center rounded-2xl border border-dashed border-white/[0.08] text-center">
-                        <p className="text-xs text-zinc-700">
-                          Arraste uma oportunidade para esta etapa
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                  
-                </div>
-              );
-            })}
-          </div>
-        </section>
-        </div>
-      
+                      {column.leads.length === 0 && (
+                        <div
+                          className={`flex h-32 items-center justify-center border border-dashed px-5 text-center transition ${
+                            isDropTarget
+                              ? "border-[#b3262d]/30 bg-[#b3262d]/[0.025]"
+                              : "border-white/[0.07]"
+                          }`}
+                        >
+                          <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-zinc-500">
+                            Drop opportunity here
+                          </p>
+                        </div>
+                      )}
                     </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        </div>
+      </div>
 
       {selectedLead && (
         <>
@@ -946,7 +890,7 @@ const biggestOpportunity =
                   {selectedLead.name}
                 </h2>
 
-                <div className="mt-2 flex items-center gap-2 text-sm text-zinc-500">
+                <div className="mt-2 flex items-center gap-2 text-sm text-zinc-400">
                   <Building2 className="h-4 w-4" />
                   {selectedLead.company}
                 </div>
@@ -1093,7 +1037,7 @@ const biggestOpportunity =
                   </div>
 
                   <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                    <p className="text-xs uppercase tracking-[0.16em] text-zinc-600">
+                    <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">
                       Campanha de origem
                     </p>
                     <p className="mt-2 text-sm font-medium text-white">
@@ -1126,7 +1070,7 @@ const biggestOpportunity =
         Histórico comercial
       </h3>
 
-      <p className="mt-1 text-xs text-zinc-600">
+      <p className="mt-1 text-xs text-zinc-400">
         Movimentações registradas nesta oportunidade.
       </p>
     </div>
@@ -1169,7 +1113,7 @@ const biggestOpportunity =
                     {event.title}
                   </p>
 
-                  <span className="shrink-0 text-[10px] text-zinc-700">
+                  <span className="shrink-0 text-[10px] text-zinc-500">
                     {formatHistoryDate(event.createdAt)}
                   </span>
                 </div>
@@ -1179,7 +1123,7 @@ const biggestOpportunity =
                 </p>
 
                 {event.fromStage && event.toStage && (
-                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.025] px-2.5 py-1 text-[10px] text-zinc-600">
+                  <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.025] px-2.5 py-1 text-[10px] text-zinc-400">
                     <span>{event.fromStage}</span>
 
                     <span>→</span>
@@ -1196,11 +1140,11 @@ const biggestOpportunity =
     </div>
   ) : (
     <div className="mt-5 rounded-2xl border border-dashed border-white/[0.08] px-4 py-8 text-center">
-      <p className="text-xs text-zinc-600">
+      <p className="text-xs text-zinc-400">
         Nenhum histórico registrado para esta oportunidade.
       </p>
 
-      <p className="mt-2 text-[10px] leading-5 text-zinc-700">
+      <p className="mt-2 text-[10px] leading-5 text-zinc-500">
         As próximas movimentações no Pipeline serão registradas automaticamente.
       </p>
     </div>

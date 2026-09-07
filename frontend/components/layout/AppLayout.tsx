@@ -9,13 +9,37 @@ type AppLayoutProps = {
 
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div className="min-h-screen bg-[#09090b] text-white">
-      <Sidebar />
+    <div className="leadflow-cinematic min-h-screen bg-[#070708] text-white">
 
-      <div className="min-h-screen lg:pl-64">
-        <Header />
+      {/* ATMOSFERA GLOBAL */}
+      <div
+        className="leadflow-atmosphere"
+        aria-hidden="true"
+      >
+        <div className="leadflow-grid" />
 
-        <main>{children}</main>
+        <div className="leadflow-glow leadflow-glow-primary" />
+
+        <div className="leadflow-glow leadflow-glow-secondary" />
+
+        <div className="leadflow-light-beam" />
+
+        <div className="leadflow-vignette" />
+
+        <div className="leadflow-noise" />
+      </div>
+
+      {/* INTERFACE */}
+      <div className="relative z-10 min-h-screen">
+        <Sidebar />
+
+        <div className="min-h-screen lg:pl-64">
+          <Header />
+
+          <main className="relative">
+            {children}
+          </main>
+        </div>
       </div>
     </div>
   );

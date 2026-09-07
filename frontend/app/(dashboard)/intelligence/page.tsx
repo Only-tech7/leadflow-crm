@@ -274,193 +274,244 @@ export default function IntelligencePage() {
 
   return (
     <>
-      <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">
+      <div className="min-h-screen px-6 py-7 text-white lg:px-8 lg:py-9">
+        <style jsx>{`
+          @keyframes lf-scan {
+            0% { transform: translateY(-120%); opacity: 0; }
+            12% { opacity: .45; }
+            75% { opacity: .18; }
+            100% { transform: translateY(520%); opacity: 0; }
+          }
+          @keyframes lf-pulse-ring {
+            0%, 100% { transform: scale(.92); opacity: .22; }
+            50% { transform: scale(1.08); opacity: .55; }
+          }
+          @keyframes lf-signal {
+            0%, 100% { opacity: .22; transform: scaleX(.72); }
+            50% { opacity: .9; transform: scaleX(1); }
+          }
+          @keyframes lf-float {
+            0%, 100% { transform: translate3d(0,0,0); }
+            50% { transform: translate3d(0,-5px,0); }
+          }
+          .lf-scan { animation: lf-scan 6.5s linear infinite; }
+          .lf-ring { animation: lf-pulse-ring 3.4s ease-in-out infinite; }
+          .lf-signal { animation: lf-signal 2.6s ease-in-out infinite; transform-origin: left; }
+          .lf-float { animation: lf-float 5s ease-in-out infinite; }
+        `}</style>
+
         <div className="mx-auto max-w-[1600px]">
-          {/* Cabeçalho */}
-          <header className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
-                <BrainCircuit className="h-4 w-4 text-[#d84a50]" />
-
-                Análises estratégicas em tempo real
-              </div>
-
-              <h1 className="text-3xl font-semibold tracking-tight text-zinc-100">
-                Inteligência Comercial
-              </h1>
-
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-500">
-                O LeadFlow analisa o comportamento dos leads, identifica
-                oportunidades e recomenda as próximas ações para a equipe
-                comercial.
-              </p>
+          <header className="relative overflow-hidden border-b border-white/[0.07] pb-8">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b3262d]/70 to-transparent" />
+            <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full border border-[#b3262d]/10">
+              <div className="lf-ring absolute inset-10 rounded-full border border-[#b3262d]/15" />
+              <div className="lf-ring absolute inset-24 rounded-full border border-[#d84a50]/20 [animation-delay:700ms]" />
             </div>
 
-            <div className="inline-flex items-center gap-2 self-start rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-2.5 text-sm text-emerald-300">
-              <Sparkles className="h-4 w-4" />
-              Análise atualizada agora
+            <div className="relative flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
+              <div>
+                <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em]">
+                  <span className="text-[#d84a50]">06 / DECISION INTELLIGENCE</span>
+                  <span className="h-px w-8 bg-white/[0.08]" />
+                  <span className="text-zinc-600">Analysis Engine / Live</span>
+                </div>
+
+                <h1 className="mt-5 max-w-3xl text-4xl font-semibold tracking-[-0.06em] text-zinc-100 lg:text-6xl">
+                  Inteligência
+                  <span className="block bg-gradient-to-r from-zinc-500 via-zinc-400 to-[#b3262d] bg-clip-text text-transparent">
+                    Comercial
+                  </span>
+                </h1>
+
+                <p className="mt-5 max-w-2xl text-sm leading-6 text-zinc-400">
+                  O LeadFlow interpreta comportamento, intenção e contexto comercial
+                  para transformar dados da operação em decisões acionáveis.
+                </p>
+              </div>
+
+              <div className="min-w-[270px] border-l border-white/[0.08] pl-5">
+                <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.16em] text-emerald-300">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                  </span>
+                  Intelligence engine online
+                </div>
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  {[72, 91, 64].map((width, index) => (
+                    <div key={index} className="h-7 border-b border-white/[0.06]">
+                      <div
+                        className="lf-signal mt-4 h-px bg-[#d84a50]"
+                        style={{
+                          width: `${width}%`,
+                          animationDelay: `${index * 420}ms`,
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-2 font-mono text-[8px] uppercase tracking-[0.14em] text-zinc-700">
+                  Signals synchronized / updated now
+                </p>
+              </div>
             </div>
           </header>
 
-          {/* Resumo executivo */}
-          <section className="relative mt-8 overflow-hidden rounded-3xl border border-[#b3262d]/20 bg-[#141011] p-6 lg:p-7">
-            <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#b3262d]/15 blur-[90px]" />
-
-            <div className="relative">
-              <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-                <div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-[#b3262d]/25 bg-[#b3262d]/10 px-3 py-1.5 text-xs font-medium text-[#ef8b90]">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    Visão consolidada da operação
-                  </div>
-
-                  <h2 className="mt-4 text-xl font-semibold tracking-tight text-zinc-100">
-                    Resumo Executivo
-                  </h2>
-
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
-                    O LeadFlow identificou oportunidades que merecem atenção
-                    imediata e organizou as ações mais relevantes para o time
-                    comercial.
-                  </p>
+          <section className="relative mt-7 overflow-hidden border-y border-[#b3262d]/20 bg-[#b3262d]/[0.025]">
+            <div className="lf-scan pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-transparent via-[#b3262d]/[0.06] to-transparent" />
+            <div className="relative grid xl:grid-cols-[1.35fr_1fr]">
+              <div className="border-b border-white/[0.06] p-6 xl:border-b-0 xl:border-r xl:p-7">
+                <div className="flex items-center gap-3">
+                  <BrainCircuit className="h-4 w-4 text-[#d84a50]" />
+                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#d84a50]">
+                    Executive Analysis
+                  </span>
                 </div>
 
-                <div className="rounded-2xl border border-[#b3262d]/20 bg-[#b3262d]/10 px-4 py-3 lg:max-w-sm">
-                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#d84a50]">
-                    Principal recomendação
-                  </p>
+                <h2 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-zinc-100">
+                  O sistema detectou uma janela de oportunidade.
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
+                  Há concentração de intenção em contas relacionadas a eventos.
+                  A recomendação é agir sobre os contatos de maior score antes de
+                  ampliar o volume de prospecção.
+                </p>
 
-                  <p className="mt-2 text-sm leading-6 text-zinc-300">
-                    Priorizar o contato com Mariana Alves nas próximas 24 horas
-                    e apresentar um case de evento corporativo.
-                  </p>
+                <div className="mt-7 grid gap-px border-y border-white/[0.06] bg-white/[0.06] sm:grid-cols-2 xl:grid-cols-4">
+                  {executiveSummary.map((item, index) => {
+                    const Icon = item.icon;
+                    return (
+                      <div key={item.label} className="bg-[#0a0a0c]/90 p-4">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono text-[8px] text-zinc-700">
+                            0{index + 1}
+                          </span>
+                          <Icon className="h-3.5 w-3.5 text-[#d84a50]" />
+                        </div>
+                        <p className="mt-4 text-xl font-semibold tracking-tight text-zinc-100">
+                          {item.value}
+                        </p>
+                        <p className="mt-1 text-[11px] leading-4 text-zinc-500">
+                          {item.label}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                {executiveSummary.map((item) => {
-                  const Icon = item.icon;
+              <div className="relative p-6 xl:p-7">
+                <div className="absolute right-6 top-6 font-mono text-[8px] uppercase tracking-[0.16em] text-zinc-700">
+                  Priority signal / 01
+                </div>
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#d84a50]">
+                  Principal recomendação
+                </p>
+                <p className="mt-5 max-w-md text-xl leading-8 text-zinc-200">
+                  Priorizar o contato com
+                  <span className="text-white"> Mariana Alves </span>
+                  nas próximas 24 horas.
+                </p>
+                <p className="mt-3 text-sm leading-6 text-zinc-500">
+                  Score 92 · probabilidade estimada em 87% · sinal de expansão
+                  identificado na Acton Experience.
+                </p>
 
-                  return (
-                    <div
-                      key={item.label}
-                      className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-4"
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="text-xs leading-5 text-zinc-500">
-                            {item.label}
-                          </p>
-
-                          <p className="mt-2 text-xl font-semibold tracking-tight text-zinc-100">
-                            {item.value}
-                          </p>
-                        </div>
-
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#b3262d]/20 bg-[#b3262d]/10">
-                          <Icon className="h-4 w-4 text-[#d84a50]" />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                <button
+                  type="button"
+                  onClick={() =>
+                    openAssistant("Crie uma abordagem para Mariana Alves")
+                  }
+                  className="mt-7 inline-flex h-10 items-center gap-2 border border-[#b3262d]/45 bg-[#b3262d]/10 px-4 text-sm font-medium text-[#ef8b90] transition hover:bg-[#b3262d]/20"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  Gerar abordagem
+                </button>
               </div>
             </div>
           </section>
 
-          {/* Indicadores */}
-          <section className="mt-6 grid gap-4 md:grid-cols-3">
-            {insights.map((item) => {
+          <section className="grid border-b border-white/[0.07] md:grid-cols-3">
+            {insights.map((item, index) => {
               const Icon = item.icon;
-
               return (
-                <div
+                <article
                   key={item.title}
-                  className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5 transition hover:border-white/[0.12] hover:bg-white/[0.04]"
+                  className={`py-6 md:px-6 ${index === 0 ? "md:pl-0" : ""} ${
+                    index < 2 ? "md:border-r md:border-white/[0.06]" : ""
+                  }`}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-sm text-zinc-500">{item.title}</p>
-
-                      <p className="mt-4 text-3xl font-semibold tracking-tight text-zinc-100">
+                      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-zinc-600">
+                        Signal 0{index + 1}
+                      </p>
+                      <p className="mt-3 text-3xl font-semibold tracking-[-0.045em] text-zinc-100">
                         {item.value}
                       </p>
-
-                      <p className="mt-2 text-xs leading-5 text-zinc-600">
+                      <p className="mt-2 text-sm text-zinc-400">{item.title}</p>
+                      <p className="mt-1 text-xs leading-5 text-zinc-600">
                         {item.description}
                       </p>
                     </div>
-
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#b3262d]/20 bg-[#b3262d]/10">
-                      <Icon className="h-5 w-5 text-[#d84a50]" />
-                    </div>
+                    <Icon className="lf-float mt-1 h-4 w-4 text-[#d84a50]" />
                   </div>
-                </div>
+                </article>
               );
             })}
           </section>
 
-          {/* Oportunidades e recomendações */}
-          <section className="mt-6 grid gap-6 xl:grid-cols-[1.5fr_1fr]">
-            <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.02]">
-              <div className="flex items-center justify-between border-b border-white/[0.06] p-5">
+          <section className="mt-8 grid gap-8 xl:grid-cols-[1.55fr_0.85fr]">
+            <div>
+              <div className="flex items-end justify-between border-b border-white/[0.07] pb-4">
                 <div>
-                  <h2 className="font-medium text-zinc-100">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#d84a50]">
+                    Opportunity Radar
+                  </p>
+                  <h2 className="mt-2 text-lg font-medium text-zinc-100">
                     Oportunidades Priorizadas
                   </h2>
-
-                  <p className="mt-1 max-w-2xl text-sm leading-6 text-zinc-600">
-                    Priorização automática baseada em comportamento, histórico
-                    de relacionamento e potencial de conversão.
-                  </p>
                 </div>
-
-                <UserRoundSearch className="h-5 w-5 text-zinc-600" />
+                <UserRoundSearch className="h-4 w-4 text-zinc-600" />
               </div>
 
-              <div className="divide-y divide-white/[0.05]">
-                {opportunities.map((lead) => (
-                  <div
-                    key={lead.id}
-                    className="p-5 transition hover:bg-white/[0.02]"
-                  >
-                    <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+              <div className="divide-y divide-white/[0.055]">
+                {opportunities.map((lead, index) => (
+                  <article key={lead.id} className="group py-6">
+                    <div className="grid gap-6 lg:grid-cols-[1fr_210px]">
                       <div className="flex min-w-0 gap-4">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#b3262d]/15 bg-[#b3262d]/10 text-sm font-semibold text-[#ef8b90]">
+                        <div className="relative flex h-11 w-11 shrink-0 items-center justify-center border border-[#b3262d]/20 bg-[#b3262d]/[0.055] font-mono text-[10px] font-semibold text-[#ef8b90]">
                           {lead.initials}
+                          <span className="absolute -left-px top-0 h-2 w-px bg-[#d84a50]" />
                         </div>
 
-                        <div className="min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="font-medium text-zinc-200">
-                              {lead.name}
-                            </h3>
-
-                            <span className="rounded-full border border-[#b3262d]/20 bg-[#b3262d]/10 px-2.5 py-1 text-xs font-medium text-[#ef8b90]">
-                              Score {lead.score}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-3">
+                            <span className="font-mono text-[8px] text-zinc-700">
+                              0{index + 1}
+                            </span>
+                            <h3 className="font-medium text-zinc-200">{lead.name}</h3>
+                            <span className="border border-[#b3262d]/20 bg-[#b3262d]/[0.06] px-2 py-0.5 font-mono text-[9px] text-[#ef8b90]">
+                              SCORE {lead.score}
                             </span>
                           </div>
-
                           <p className="mt-1 text-sm text-zinc-500">
                             {lead.role} · {lead.company}
                           </p>
 
-                          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                            <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
-                              <p className="text-xs text-zinc-600">
-                                Sinal identificado
+                          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                            <div className="border-l border-white/[0.08] pl-3">
+                              <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-zinc-700">
+                                Signal detected
                               </p>
-
                               <p className="mt-2 text-sm leading-5 text-zinc-300">
                                 {lead.signal}
                               </p>
                             </div>
-
-                            <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
-                              <p className="text-xs text-zinc-600">
-                                Próxima ação
+                            <div className="border-l border-[#b3262d]/25 pl-3">
+                              <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-[#b85a5f]">
+                                Recommended action
                               </p>
-
                               <p className="mt-2 text-sm leading-5 text-zinc-300">
                                 {lead.action}
                               </p>
@@ -469,24 +520,21 @@ export default function IntelligencePage() {
                         </div>
                       </div>
 
-                      <div className="w-full shrink-0 lg:w-[190px]">
+                      <div className="border-l border-white/[0.06] pl-5">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-zinc-600">
-                            Probabilidade
+                          <span className="font-mono text-[8px] uppercase tracking-[0.14em] text-zinc-600">
+                            Probability
                           </span>
-
-                          <span className="text-sm font-semibold text-emerald-300">
+                          <span className="font-mono text-lg font-semibold text-emerald-300">
                             {lead.probability}%
                           </span>
                         </div>
-
-                        <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/[0.05]">
+                        <div className="mt-3 h-px bg-white/[0.07]">
                           <div
-                            className="h-full rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400"
+                            className="h-px bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)] transition-all duration-700"
                             style={{ width: `${lead.probability}%` }}
                           />
                         </div>
-
                         <button
                           type="button"
                           onClick={() =>
@@ -494,59 +542,51 @@ export default function IntelligencePage() {
                               `Crie uma abordagem para ${lead.name}, da empresa ${lead.company}`,
                             )
                           }
-                          className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-[#b3262d] text-sm font-medium text-white shadow-[0_10px_24px_rgba(179,38,45,0.2)] transition hover:bg-[#971f26]"
+                          className="mt-5 inline-flex h-9 w-full items-center justify-center gap-2 border border-[#b3262d]/35 bg-[#b3262d]/10 text-xs font-medium text-[#ef8b90] transition hover:bg-[#b3262d]/20"
                         >
                           {lead.channel === "E-mail" ? (
-                            <Mail className="h-4 w-4" />
+                            <Mail className="h-3.5 w-3.5" />
                           ) : (
-                            <MessageCircle className="h-4 w-4" />
+                            <MessageCircle className="h-3.5 w-3.5" />
                           )}
-
                           Gerar abordagem
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </article>
                 ))}
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02]">
-              <div className="border-b border-white/[0.06] p-5">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-[#d84a50]" />
-
-                  <h2 className="font-medium text-zinc-100">
-                    Recomendações Estratégicas
+            <aside>
+              <div className="flex items-end justify-between border-b border-white/[0.07] pb-4">
+                <div>
+                  <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#d84a50]">
+                    Decision Engine
+                  </p>
+                  <h2 className="mt-2 text-lg font-medium text-zinc-100">
+                    Recomendações
                   </h2>
                 </div>
-
-                <p className="mt-2 text-sm leading-6 text-zinc-600">
-                  Direcionamentos baseados no comportamento e no histórico das
-                  oportunidades.
-                </p>
+                <Sparkles className="h-4 w-4 text-[#d84a50]" />
               </div>
 
-              <div className="space-y-4 p-5">
-                {recommendations.map((recommendation) => (
-                  <div
-                    key={recommendation.title}
-                    className="rounded-xl border border-white/[0.06] bg-white/[0.025] p-4 transition hover:border-white/[0.11] hover:bg-white/[0.04]"
-                  >
-                    <div className="flex items-start gap-3">
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
-
+              <div className="divide-y divide-white/[0.055]">
+                {recommendations.map((recommendation, index) => (
+                  <div key={recommendation.title} className="py-5">
+                    <div className="flex gap-3">
+                      <span className="mt-1 font-mono text-[8px] text-zinc-700">
+                        0{index + 1}
+                      </span>
                       <div>
                         <div className="flex flex-wrap items-center gap-2">
                           <h3 className="text-sm font-medium text-zinc-200">
                             {recommendation.title}
                           </h3>
-
-                          <span className="rounded-full border border-[#b3262d]/15 bg-[#b3262d]/10 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-[#d84a50]">
+                          <span className="border border-[#b3262d]/15 bg-[#b3262d]/[0.06] px-2 py-0.5 font-mono text-[8px] uppercase tracking-wide text-[#d84a50]">
                             {recommendation.badge}
                           </span>
                         </div>
-
                         <p className="mt-2 text-sm leading-6 text-zinc-500">
                           {recommendation.description}
                         </p>
@@ -556,46 +596,42 @@ export default function IntelligencePage() {
                 ))}
               </div>
 
-              <div className="border-t border-white/[0.06] p-5">
-                <div className="rounded-xl border border-[#b3262d]/20 bg-[#b3262d]/[0.07] p-4">
-                  <div className="flex items-start gap-3">
-                    <Building2 className="mt-0.5 h-5 w-5 text-[#d84a50]" />
-
-                    <div>
-                      <p className="text-sm font-medium text-[#ef8b90]">
-                        Análise do cenário
-                      </p>
-
-                      <p className="mt-2 text-sm leading-6 text-zinc-400">
-                        Leads de empresas do setor de eventos estão apresentando
-                        maior taxa de resposta nesta semana.
-                      </p>
-                    </div>
+              <div className="relative mt-5 overflow-hidden border border-[#b3262d]/18 bg-[#b3262d]/[0.035] p-4">
+                <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#d84a50] to-transparent" />
+                <div className="flex items-start gap-3">
+                  <Building2 className="mt-0.5 h-4 w-4 text-[#d84a50]" />
+                  <div>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[#d84a50]">
+                      Pattern detected
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-zinc-400">
+                      Leads de empresas do setor de eventos estão apresentando
+                      maior taxa de resposta nesta semana.
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
+            </aside>
           </section>
 
-          {/* Consultor estratégico */}
-          <section className="relative mt-6 overflow-hidden rounded-2xl border border-[#b3262d]/20 bg-gradient-to-r from-[#b3262d]/[0.09] to-transparent p-5">
-            <div className="absolute -left-16 -bottom-24 h-52 w-52 rounded-full bg-[#b3262d]/10 blur-[80px]" />
-
-            <div className="relative flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <section className="relative mt-8 overflow-hidden border-y border-[#b3262d]/20 py-6">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-2/3 -translate-x-1/2 -translate-y-1/2 bg-[#b3262d]/[0.055] blur-[70px]" />
+            <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#b3262d]/20 bg-[#b3262d]/10 text-[#d84a50]">
-                  <BrainCircuit className="h-6 w-6" />
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center border border-[#b3262d]/25 bg-[#b3262d]/10 text-[#d84a50]">
+                  <span className="absolute inset-0 animate-ping border border-[#b3262d]/15 [animation-duration:2.8s]" />
+                  <BrainCircuit className="relative h-5 w-5" />
                 </div>
-
                 <div>
-                  <h2 className="font-medium text-zinc-100">
-                    Consultor Estratégico
+                  <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#d84a50]">
+                    AI Strategic Consultant
+                  </p>
+                  <h2 className="mt-1 font-medium text-zinc-100">
+                    Consulte a inteligência da operação
                   </h2>
-
                   <p className="mt-1 max-w-2xl text-sm leading-6 text-zinc-500">
-                    Gere abordagens personalizadas, diagnósticos comerciais,
-                    resumos de oportunidades e direcionamentos para os próximos
-                    contatos.
+                    Gere abordagens, diagnósticos e próximos passos a partir dos
+                    sinais comerciais já identificados pelo LeadFlow.
                   </p>
                 </div>
               </div>
@@ -603,7 +639,7 @@ export default function IntelligencePage() {
               <button
                 type="button"
                 onClick={() => openAssistant()}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#b3262d] px-5 text-sm font-medium text-white shadow-[0_10px_25px_rgba(179,38,45,0.22)] transition hover:bg-[#971f26]"
+                className="inline-flex h-10 items-center justify-center gap-2 border border-[#b3262d]/50 bg-[#b3262d] px-5 text-sm font-medium text-white shadow-[0_0_28px_rgba(179,38,45,0.16)] transition hover:bg-[#c62c34]"
               >
                 <Sparkles className="h-4 w-4" />
                 Abrir consultor
@@ -623,7 +659,7 @@ export default function IntelligencePage() {
             className="absolute inset-0 bg-black/75 backdrop-blur-md"
           />
 
-          <div className="relative z-10 flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-white/[0.1] bg-[#101014] shadow-[0_30px_100px_rgba(0,0,0,0.7)]">
+          <div className="relative z-10 flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden border border-white/[0.1] bg-[#0c0c0f]/95 shadow-[0_30px_100px_rgba(0,0,0,0.75),0_0_60px_rgba(179,38,45,0.08)] backdrop-blur-xl">
             <header className="flex items-start justify-between gap-4 border-b border-white/[0.07] px-6 py-5">
               <div className="flex items-center gap-4">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#b3262d]/20 bg-[#b3262d]/10 text-[#d84a50]">

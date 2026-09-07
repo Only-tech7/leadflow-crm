@@ -182,93 +182,123 @@ export default function CampaignsPage() {
   ).length;
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">
+    <div className="min-h-screen px-6 py-7 text-white lg:px-8 lg:py-9">
       <div className="mx-auto max-w-[1600px]">
-        <header className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
-              <Send className="h-4 w-4" />
-              Automação comercial
-            </div>
-
-            <h1 className="text-3xl font-semibold tracking-tight text-zinc-100">
-              Campanhas
-            </h1>
-
-            <p className="mt-2 text-sm text-zinc-500">
-              Gerencie campanhas de prospecção e acompanhe os resultados por
-              canal.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-zinc-950 transition hover:bg-zinc-200"
-          >
-            <Plus className="h-4 w-4" />
-            Nova campanha
-          </button>
-        </header>
-
-        <section className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <MetricCard
-            title="Campanhas ativas"
-            value={activeCampaigns.toString()}
-            description="Disparos em andamento"
-            icon={<PlayCircle className="h-5 w-5 text-emerald-300" />}
-          />
-
-          <MetricCard
-            title="Mensagens enviadas"
-            value={totalSent.toLocaleString("pt-BR")}
-            description="Total de contatos realizados"
-            icon={<Send className="h-5 w-5 text-violet-300" />}
-          />
-
-          <MetricCard
-            title="Respostas recebidas"
-            value={totalResponses.toString()}
-            description="Interações geradas"
-            icon={<MessageCircle className="h-5 w-5 text-cyan-300" />}
-          />
-
-          <MetricCard
-            title="Conversões"
-            value={totalConversions.toString()}
-            description="Oportunidades criadas"
-            icon={<BarChart3 className="h-5 w-5 text-amber-300" />}
-          />
-        </section>
-
-        <section className="mt-6 overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.02]">
-          <div className="flex flex-col gap-4 border-b border-white/[0.06] p-5 xl:flex-row xl:items-center xl:justify-between">
+        <header className="border-b border-white/[0.07] pb-7">
+          <div className="flex flex-col gap-7 xl:flex-row xl:items-end xl:justify-between">
             <div>
-              <h2 className="text-base font-medium text-zinc-100">
-                Campanhas recentes
-              </h2>
+              <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em]">
+                <span className="text-[#d84a50]">05 / CAMPAIGN OPERATIONS</span>
+                <span className="h-px w-8 bg-white/[0.08]" />
+                <span className="text-zinc-600">Outbound / Multi-channel</span>
+              </div>
 
-              <p className="mt-1 text-sm text-zinc-600">
-                Acompanhe o desempenho e a evolução de cada campanha.
+              <h1 className="mt-5 text-4xl font-semibold tracking-[-0.055em] text-zinc-100 lg:text-5xl">
+                Operações
+                <span className="block text-zinc-500">de Campanha</span>
+              </h1>
+
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-400">
+                Acompanhe prospecção, alcance, respostas e conversões por canal
+                para entender quais ações estão gerando oportunidades comerciais.
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <div className="relative w-full sm:w-[290px]">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-600" />
+            <button
+              type="button"
+              className="inline-flex h-10 items-center justify-center gap-2 border border-[#b3262d]/60 bg-[#b3262d] px-4 text-sm font-medium text-white shadow-[0_10px_30px_rgba(179,38,45,0.18)] transition hover:bg-[#c62c34]"
+            >
+              <Plus className="h-4 w-4" />
+              Nova campanha
+            </button>
+          </div>
+        </header>
 
+        <section className="grid border-b border-white/[0.07] sm:grid-cols-2 xl:grid-cols-4">
+          {[
+            {
+              label: "Campanhas ativas",
+              value: activeCampaigns.toString(),
+              description: "Disparos em andamento",
+              icon: PlayCircle,
+            },
+            {
+              label: "Mensagens enviadas",
+              value: totalSent.toLocaleString("pt-BR"),
+              description: "Contatos realizados",
+              icon: Send,
+            },
+            {
+              label: "Respostas",
+              value: totalResponses.toString(),
+              description: "Interações geradas",
+              icon: MessageCircle,
+            },
+            {
+              label: "Conversões",
+              value: totalConversions.toString(),
+              description: "Oportunidades criadas",
+              icon: BarChart3,
+            },
+          ].map((metric, index) => {
+            const Icon = metric.icon;
+
+            return (
+              <article
+                key={metric.label}
+                className={`py-6 sm:px-5 xl:px-6 ${
+                  index === 0 ? "sm:pl-0 xl:pl-0" : ""
+                } ${index < 3 ? "xl:border-r xl:border-white/[0.06]" : ""}`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-600">
+                      0{index + 1} / {metric.label}
+                    </p>
+                    <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-zinc-100">
+                      {metric.value}
+                    </p>
+                    <p className="mt-2 text-xs text-zinc-500">
+                      {metric.description}
+                    </p>
+                  </div>
+                  <Icon className="mt-1 h-4 w-4 text-[#d84a50]" />
+                </div>
+              </article>
+            );
+          })}
+        </section>
+
+        <section className="mt-7">
+          <div className="flex flex-col gap-5 border-b border-white/[0.07] pb-5 xl:flex-row xl:items-end xl:justify-between">
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="h-2 w-2 rounded-full bg-[#d84a50] shadow-[0_0_12px_rgba(216,74,80,0.65)]" />
+                <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-500">
+                  Campaign Registry / {filteredCampaigns.length} visible
+                </p>
+              </div>
+              <p className="mt-2 text-sm text-zinc-400">
+                Performance operacional das campanhas de aquisição e follow-up.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+              <div className="group flex h-10 w-full items-center gap-3 border-b border-white/[0.1] px-1 transition focus-within:border-[#b3262d]/55 sm:w-[290px]">
+                <Search className="h-4 w-4 shrink-0 text-zinc-600 transition group-focus-within:text-[#d84a50]" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
                   placeholder="Buscar campanha..."
-                  className="h-11 w-full rounded-xl border border-white/[0.07] bg-white/[0.03] pl-10 pr-4 text-sm text-zinc-200 outline-none transition placeholder:text-zinc-700 focus:border-white/[0.15]"
+                  className="min-w-0 flex-1 bg-transparent text-sm text-zinc-300 outline-none placeholder:text-zinc-700"
                 />
               </div>
 
               <select
                 value={channelFilter}
                 onChange={(event) => setChannelFilter(event.target.value)}
-                className="h-11 rounded-xl border border-white/[0.07] bg-[#111113] px-4 text-sm text-zinc-300 outline-none"
+                className="h-10 border border-white/[0.08] bg-[#0b0b0d]/90 px-3 text-xs text-zinc-400 outline-none transition focus:border-[#b3262d]/40"
               >
                 <option value="Todos">Todos os canais</option>
                 <option value="E-mail">E-mail</option>
@@ -279,150 +309,126 @@ export default function CampaignsPage() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1180px]">
+            <table className="w-full min-w-[1180px] border-collapse">
               <thead>
                 <tr className="border-b border-white/[0.06]">
-                  <th className="px-5 py-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Campanha
-                  </th>
-
-                  <th className="px-5 py-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Público
-                  </th>
-
-                  <th className="px-5 py-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Enviados
-                  </th>
-
-                  <th className="px-5 py-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Abertura
-                  </th>
-
-                  <th className="px-5 py-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Respostas
-                  </th>
-
-                  <th className="px-5 py-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Conversões
-                  </th>
-
-                  <th className="px-5 py-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Status
-                  </th>
-
-                  <th className="px-5 py-4" />
+                  {[
+                    "Campanha",
+                    "Público",
+                    "Enviados",
+                    "Abertura",
+                    "Respostas",
+                    "Conversões",
+                    "Status",
+                  ].map((heading) => (
+                    <th
+                      key={heading}
+                      className="px-4 py-4 text-left font-mono text-[9px] font-medium uppercase tracking-[0.17em] text-zinc-600 first:pl-0"
+                    >
+                      {heading}
+                    </th>
+                  ))}
+                  <th className="w-14 px-4 py-4" />
                 </tr>
               </thead>
 
-              <tbody>
-                {filteredCampaigns.map((campaign) => {
-                  const openingRate = calculateRate(
-                    campaign.opens,
-                    campaign.sent
-                  );
-
+              <tbody className="divide-y divide-white/[0.055]">
+                {filteredCampaigns.map((campaign, index) => {
+                  const openingRate = calculateRate(campaign.opens, campaign.sent);
                   const responseRate = calculateRate(
                     campaign.responses,
-                    campaign.sent
+                    campaign.sent,
                   );
-
                   const conversionRate = calculateRate(
                     campaign.conversions,
-                    campaign.sent
+                    campaign.sent,
                   );
 
                   return (
                     <tr
                       key={campaign.id}
-                      className="border-b border-white/[0.04] transition last:border-none hover:bg-white/[0.025]"
+                      className="group transition duration-200 hover:bg-white/[0.018]"
                     >
-                      <td className="px-5 py-4">
+                      <td className="py-5 pl-0 pr-4">
                         <div>
-                          <p className="font-medium text-zinc-200">
-                            {campaign.name}
-                          </p>
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-[8px] text-zinc-700">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <p className="font-medium text-zinc-200">
+                              {campaign.name}
+                            </p>
+                          </div>
 
                           <div className="mt-2 flex items-center gap-3">
                             <span
-                              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${
+                              className={`inline-flex items-center gap-1.5 border px-2 py-1 text-xs font-medium ${
                                 channelStyles[campaign.channel]
                               }`}
                             >
                               {getChannelIcon(campaign.channel)}
                               {campaign.channel}
                             </span>
-
-                            <span className="text-xs text-zinc-700">
-                              Criada em {campaign.createdAt}
+                            <span className="font-mono text-[9px] text-zinc-600">
+                              {campaign.createdAt}
                             </span>
                           </div>
                         </div>
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-zinc-400">
+                      <td className="px-4 py-5 font-mono text-sm text-zinc-400">
                         {campaign.audience}
                       </td>
 
-                      <td className="px-5 py-4">
-                        <div>
-                          <p className="text-sm font-medium text-zinc-300">
-                            {campaign.sent}
-                          </p>
-
-                          <p className="mt-1 text-xs text-zinc-700">
-                            de {campaign.audience}
-                          </p>
-                        </div>
+                      <td className="px-4 py-5">
+                        <p className="font-mono text-sm font-medium text-zinc-300">
+                          {campaign.sent}
+                        </p>
+                        <p className="mt-1 text-xs text-zinc-600">
+                          de {campaign.audience}
+                        </p>
                       </td>
 
-                      <td className="px-5 py-4">
+                      <td className="px-4 py-5">
                         <div className="w-[120px]">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-zinc-300">
+                            <span className="font-mono text-sm font-medium text-zinc-300">
                               {openingRate}%
                             </span>
-
-                            <span className="text-xs text-zinc-700">
+                            <span className="text-xs text-zinc-600">
                               {campaign.opens}
                             </span>
                           </div>
-
-                          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.05]">
+                          <div className="mt-2 h-px bg-white/[0.07]">
                             <div
                               style={{ width: `${openingRate}%` }}
-                              className="h-full rounded-full bg-violet-500/70"
+                              className="h-px bg-[#d84a50] shadow-[0_0_7px_rgba(216,74,80,0.45)]"
                             />
                           </div>
                         </div>
                       </td>
 
-                      <td className="px-5 py-4">
-                        <div>
-                          <p className="text-sm font-medium text-zinc-300">
-                            {campaign.responses}
-                          </p>
-
-                          <p className="mt-1 text-xs text-zinc-700">
-                            {responseRate}% dos enviados
-                          </p>
-                        </div>
+                      <td className="px-4 py-5">
+                        <p className="font-mono text-sm font-medium text-zinc-300">
+                          {campaign.responses}
+                        </p>
+                        <p className="mt-1 text-xs text-zinc-500">
+                          {responseRate}% dos enviados
+                        </p>
                       </td>
 
-                      <td className="px-5 py-4">
-                        <div>
-                          <p className="text-sm font-medium text-zinc-300">
-                            {campaign.conversions}
-                          </p>
-
-                          <p className="mt-1 text-xs text-zinc-700">
-                            {conversionRate}% dos enviados
-                          </p>
-                        </div>
+                      <td className="px-4 py-5">
+                        <p className="font-mono text-sm font-medium text-zinc-300">
+                          {campaign.conversions}
+                        </p>
+                        <p className="mt-1 text-xs text-zinc-500">
+                          {conversionRate}% dos enviados
+                        </p>
                       </td>
 
-                      <td className="px-5 py-4">
+                      <td className="px-4 py-5">
                         <span
-                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${
+                          className={`inline-flex items-center gap-1.5 border px-2.5 py-1 text-xs font-medium ${
                             statusStyles[campaign.status]
                           }`}
                         >
@@ -431,10 +437,11 @@ export default function CampaignsPage() {
                         </span>
                       </td>
 
-                      <td className="px-5 py-4">
+                      <td className="px-4 py-5">
                         <button
                           type="button"
-                          className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-600 transition hover:bg-white/[0.05] hover:text-zinc-300"
+                          className="flex h-8 w-8 items-center justify-center text-zinc-600 transition hover:bg-white/[0.04] hover:text-zinc-300"
+                          aria-label={`Mais opções de ${campaign.name}`}
                         >
                           <MoreHorizontal className="h-4 w-4" />
                         </button>
@@ -447,68 +454,34 @@ export default function CampaignsPage() {
           </div>
 
           {filteredCampaigns.length === 0 && (
-            <div className="flex min-h-[280px] flex-col items-center justify-center px-6 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04]">
-                <Search className="h-5 w-5 text-zinc-600" />
-              </div>
-
+            <div className="flex min-h-[280px] flex-col items-center justify-center border-b border-white/[0.06] px-6 text-center">
+              <Search className="h-5 w-5 text-zinc-600" />
               <p className="mt-4 font-medium text-zinc-300">
                 Nenhuma campanha encontrada
               </p>
-
-              <p className="mt-2 text-sm text-zinc-600">
+              <p className="mt-2 text-sm text-zinc-500">
                 Tente alterar a busca ou o canal selecionado.
               </p>
             </div>
           )}
 
-          <div className="border-t border-white/[0.06] px-5 py-4">
-            <p className="text-sm text-zinc-600">
-              Exibindo{" "}
-              <span className="font-medium text-zinc-400">
-                {filteredCampaigns.length}
-              </span>{" "}
-              de{" "}
-              <span className="font-medium text-zinc-400">
-                {campaigns.length}
-              </span>{" "}
-              campanhas
-            </p>
+          <div className="flex items-center justify-between border-t border-white/[0.07] py-4">
+            <div>
+              <p className="text-xs text-zinc-400">
+                Exibindo {filteredCampaigns.length} de {campaigns.length} campanhas
+              </p>
+              <p className="mt-1 font-mono text-[8px] uppercase tracking-[0.15em] text-zinc-700">
+                Campaign operations / current environment
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.14em] text-zinc-600">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              Operations online
+            </div>
           </div>
         </section>
       </div>
-    </div>
-  );
-}
-
-type MetricCardProps = {
-  title: string;
-  value: string;
-  description: string;
-  icon: React.ReactNode;
-};
-
-function MetricCard({
-  title,
-  value,
-  description,
-  icon,
-}: MetricCardProps) {
-  return (
-    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-zinc-500">{title}</span>
-
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04]">
-          {icon}
-        </div>
-      </div>
-
-      <p className="mt-5 text-3xl font-semibold tracking-tight text-zinc-100">
-        {value}
-      </p>
-
-      <p className="mt-2 text-xs text-zinc-600">{description}</p>
     </div>
   );
 }

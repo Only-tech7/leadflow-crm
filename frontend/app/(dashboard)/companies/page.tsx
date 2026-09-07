@@ -108,116 +108,115 @@ export default function CompaniesPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">
+    <div className="min-h-screen px-6 py-7 text-white lg:px-8 lg:py-9">
       <div className="mx-auto max-w-[1600px]">
-        <header className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
-              <Building2 className="h-4 w-4" />
-              Gestão comercial
-            </div>
-
-            <h1 className="text-3xl font-semibold tracking-tight text-zinc-100">
-              Empresas
-            </h1>
-
-            <p className="mt-2 text-sm text-zinc-500">
-              Acompanhe empresas, leads vinculados e oportunidades comerciais.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-zinc-950 transition hover:bg-zinc-200"
-          >
-            <Plus className="h-4 w-4" />
-            Nova empresa
-          </button>
-        </header>
-
-        <section className="mt-8 grid gap-4 md:grid-cols-3">
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-zinc-500">
-                Empresas cadastradas
-              </span>
-
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10">
-                <Building2 className="h-5 w-5 text-violet-300" />
-              </div>
-            </div>
-
-            <p className="mt-5 text-3xl font-semibold text-zinc-100">
-              {companies.length}
-            </p>
-
-            <p className="mt-2 text-xs text-zinc-600">
-              Contas monitoradas pelo LeadFlow
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-zinc-500">
-                Leads vinculados
-              </span>
-
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10">
-                <Users className="h-5 w-5 text-cyan-300" />
-              </div>
-            </div>
-
-            <p className="mt-5 text-3xl font-semibold text-zinc-100">
-              {totalLeads}
-            </p>
-
-            <p className="mt-2 text-xs text-zinc-600">
-              Contatos distribuídos entre empresas
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-zinc-500">
-                Oportunidades abertas
-              </span>
-
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
-                <BriefcaseBusiness className="h-5 w-5 text-emerald-300" />
-              </div>
-            </div>
-
-            <p className="mt-5 text-3xl font-semibold text-zinc-100">
-              {totalOpportunities}
-            </p>
-
-            <p className="mt-2 text-xs text-zinc-600">
-              Negociações em andamento
-            </p>
-          </div>
-        </section>
-
-        <section className="mt-6 overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.02]">
-          <div className="flex flex-col gap-4 border-b border-white/[0.06] p-5 md:flex-row md:items-center md:justify-between">
+        {/* ACCOUNT CONTROL HEADER */}
+        <header className="border-b border-white/[0.07] pb-7">
+          <div className="flex flex-col gap-7 xl:flex-row xl:items-end xl:justify-between">
             <div>
-              <h2 className="text-base font-medium text-zinc-100">
-                Lista de empresas
-              </h2>
+              <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em]">
+                <span className="text-[#d84a50]">03 / ACCOUNT DATABASE</span>
+                <span className="h-px w-8 bg-white/[0.08]" />
+                <span className="text-zinc-600">Organizations / Active</span>
+              </div>
 
-              <p className="mt-1 text-sm text-zinc-600">
-                Visualize o desempenho comercial de cada conta.
+              <h1 className="mt-5 text-4xl font-semibold tracking-[-0.055em] text-zinc-100 lg:text-5xl">
+                Contas
+                <span className="block text-zinc-500">Comerciais</span>
+              </h1>
+
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-400">
+                Organize empresas, contatos vinculados e oportunidades em andamento
+                para acompanhar cada relacionamento comercial em um único ambiente.
               </p>
             </div>
 
-            <div className="relative w-full md:w-[320px]">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-600" />
+            <button
+              type="button"
+              className="inline-flex h-10 items-center justify-center gap-2 border border-[#b3262d]/60 bg-[#b3262d] px-4 text-sm font-medium text-white shadow-[0_10px_30px_rgba(179,38,45,0.18)] transition hover:bg-[#c62c34]"
+            >
+              <Plus className="h-4 w-4" />
+              Nova empresa
+            </button>
+          </div>
+        </header>
+
+        {/* ACCOUNT METRICS */}
+        <section className="grid border-b border-white/[0.07] md:grid-cols-3">
+          {[
+            {
+              label: "Empresas cadastradas",
+              value: companies.length,
+              description: "Contas monitoradas pelo LeadFlow",
+              icon: Building2,
+            },
+            {
+              label: "Leads vinculados",
+              value: totalLeads,
+              description: "Contatos distribuídos entre empresas",
+              icon: Users,
+            },
+            {
+              label: "Oportunidades abertas",
+              value: totalOpportunities,
+              description: "Negociações em andamento",
+              icon: BriefcaseBusiness,
+            },
+          ].map((metric, index) => {
+            const Icon = metric.icon;
+
+            return (
+              <article
+                key={metric.label}
+                className={`py-6 md:px-6 ${
+                  index === 0 ? "md:pl-0" : ""
+                } ${index < 2 ? "md:border-r md:border-white/[0.06]" : ""}`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-600">
+                      0{index + 1} / {metric.label}
+                    </p>
+                    <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-zinc-100">
+                      {metric.value}
+                    </p>
+                    <p className="mt-2 text-xs text-zinc-500">
+                      {metric.description}
+                    </p>
+                  </div>
+
+                  <Icon className="mt-1 h-4 w-4 text-[#b3262d]" />
+                </div>
+              </article>
+            );
+          })}
+        </section>
+
+        {/* ACCOUNT REGISTRY */}
+        <section className="mt-7">
+          <div className="flex flex-col gap-4 border-b border-white/[0.07] pb-5 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="h-2 w-2 rounded-full bg-[#d84a50] shadow-[0_0_12px_rgba(216,74,80,0.65)]" />
+                <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-500">
+                  Account Registry / {filteredCompanies.length} visible
+                </p>
+              </div>
+
+              <p className="mt-2 text-sm text-zinc-400">
+                Visão consolidada das organizações presentes na operação comercial.
+              </p>
+            </div>
+
+            <div className="group flex h-10 w-full items-center gap-3 border-b border-white/[0.1] px-1 transition focus-within:border-[#b3262d]/55 md:w-[340px]">
+              <Search className="h-4 w-4 shrink-0 text-zinc-600 transition group-focus-within:text-[#d84a50]" />
 
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder="Buscar empresa..."
-                className="h-11 w-full rounded-xl border border-white/[0.07] bg-white/[0.03] pl-10 pr-4 text-sm text-zinc-200 outline-none transition placeholder:text-zinc-700 focus:border-white/[0.15] focus:bg-white/[0.05]"
+                placeholder="Empresa, segmento ou responsável..."
+                className="min-w-0 flex-1 bg-transparent text-sm text-zinc-300 outline-none placeholder:text-zinc-700"
               />
             </div>
           </div>
@@ -226,79 +225,83 @@ export default function CompaniesPage() {
             <table className="w-full min-w-[1050px] border-collapse">
               <thead>
                 <tr className="border-b border-white/[0.06] text-left">
-                  <th className="px-5 py-4 text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Empresa
-                  </th>
+                  {[
+                    "Empresa",
+                    "Leads",
+                    "Oportunidades",
+                    "Responsável",
+                    "Status",
+                    "Última interação",
+                  ].map((heading) => (
+                    <th
+                      key={heading}
+                      className="px-4 py-4 font-mono text-[9px] font-medium uppercase tracking-[0.17em] text-zinc-600 first:pl-0"
+                    >
+                      {heading}
+                    </th>
+                  ))}
 
-                  <th className="px-5 py-4 text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Leads
-                  </th>
-
-                  <th className="px-5 py-4 text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Oportunidades
-                  </th>
-
-                  <th className="px-5 py-4 text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Responsável
-                  </th>
-
-                  <th className="px-5 py-4 text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Status
-                  </th>
-
-                  <th className="px-5 py-4 text-xs font-medium uppercase tracking-[0.12em] text-zinc-600">
-                    Última interação
-                  </th>
-
-                  <th className="px-5 py-4" />
+                  <th className="w-24 px-4 py-4" />
                 </tr>
               </thead>
 
-              <tbody>
-                {filteredCompanies.map((company) => (
+              <tbody className="divide-y divide-white/[0.055]">
+                {filteredCompanies.map((company, index) => (
                   <tr
                     key={company.id}
-                    className="group border-b border-white/[0.04] transition last:border-none hover:bg-white/[0.025]"
+                    className="group relative transition duration-200 hover:bg-white/[0.018]"
                   >
-                    <td className="px-5 py-4">
+                    <td className="py-4 pl-0 pr-4">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] text-sm font-semibold text-zinc-300">
+                        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center border border-[#b3262d]/20 bg-[#b3262d]/[0.055] font-mono text-[10px] font-semibold text-[#ef8b90]">
                           {company.initials}
+                          <span className="absolute -left-px top-0 h-2 w-px bg-[#d84a50]" />
                         </div>
 
                         <div>
-                          <p className="font-medium text-zinc-200">
-                            {company.name}
-                          </p>
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-[8px] text-zinc-700">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <p className="font-medium text-zinc-200">
+                              {company.name}
+                            </p>
+                          </div>
 
-                          <p className="mt-1 text-xs text-zinc-600">
+                          <p className="mt-1 text-xs text-zinc-500">
                             {company.segment}
                           </p>
                         </div>
                       </div>
                     </td>
 
-                    <td className="px-5 py-4">
-                      <span className="text-sm font-medium text-zinc-300">
-                        {company.leads}
-                      </span>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-2">
+                        <Users className="h-3.5 w-3.5 text-zinc-600" />
+                        <span className="font-mono text-sm font-medium text-zinc-300">
+                          {company.leads}
+                        </span>
+                      </div>
                     </td>
 
-                    <td className="px-5 py-4">
-                      <span className="text-sm font-medium text-zinc-300">
-                        {company.opportunities}
-                      </span>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-2">
+                        <BriefcaseBusiness className="h-3.5 w-3.5 text-zinc-600" />
+                        <span className="font-mono text-sm font-medium text-zinc-300">
+                          {company.opportunities}
+                        </span>
+                      </div>
                     </td>
 
-                    <td className="px-5 py-4">
+                    <td className="px-4 py-4">
                       <span className="text-sm text-zinc-400">
                         {company.owner}
                       </span>
                     </td>
 
-                    <td className="px-5 py-4">
+                    <td className="px-4 py-4">
                       <span
-                        className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-medium ${
+                        className={`inline-flex border px-2.5 py-1 text-xs font-medium ${
                           statusStyles[company.status]
                         }`}
                       >
@@ -306,24 +309,26 @@ export default function CompaniesPage() {
                       </span>
                     </td>
 
-                    <td className="px-5 py-4">
-                      <span className="text-sm text-zinc-500">
+                    <td className="px-4 py-4">
+                      <span className="text-sm text-zinc-400">
                         {company.lastInteraction}
                       </span>
                     </td>
 
-                    <td className="px-5 py-4">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="px-4 py-4">
+                      <div className="flex items-center justify-end gap-1">
                         <button
                           type="button"
-                          className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-600 transition hover:bg-white/[0.05] hover:text-zinc-300"
+                          className="flex h-8 w-8 items-center justify-center text-zinc-600 transition hover:bg-white/[0.04] hover:text-[#ef8b90]"
+                          aria-label={`Abrir ${company.name}`}
                         >
                           <ArrowUpRight className="h-4 w-4" />
                         </button>
 
                         <button
                           type="button"
-                          className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-600 transition hover:bg-white/[0.05] hover:text-zinc-300"
+                          className="flex h-8 w-8 items-center justify-center text-zinc-600 transition hover:bg-white/[0.04] hover:text-zinc-300"
+                          aria-label={`Mais opções de ${company.name}`}
                         >
                           <MoreHorizontal className="h-4 w-4" />
                         </button>
@@ -335,18 +340,32 @@ export default function CompaniesPage() {
             </table>
           </div>
 
-          <div className="border-t border-white/[0.06] px-5 py-4">
-            <p className="text-sm text-zinc-600">
-              Exibindo{" "}
-              <span className="font-medium text-zinc-400">
-                {filteredCompanies.length}
-              </span>{" "}
-              de{" "}
-              <span className="font-medium text-zinc-400">
-                {companies.length}
-              </span>{" "}
-              empresas
-            </p>
+          {filteredCompanies.length === 0 && (
+            <div className="border-b border-white/[0.06] py-16 text-center">
+              <Search className="mx-auto h-5 w-5 text-zinc-600" />
+              <p className="mt-4 text-sm font-medium text-zinc-300">
+                Nenhuma empresa encontrada
+              </p>
+              <p className="mt-2 text-xs text-zinc-500">
+                Tente pesquisar por outro nome, segmento ou responsável.
+              </p>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between border-t border-white/[0.07] py-4">
+            <div>
+              <p className="text-xs text-zinc-400">
+                Exibindo {filteredCompanies.length} de {companies.length} empresas
+              </p>
+              <p className="mt-1 font-mono text-[8px] uppercase tracking-[0.15em] text-zinc-700">
+                Account database / current environment
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.14em] text-zinc-600">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              Registry online
+            </div>
           </div>
         </section>
       </div>

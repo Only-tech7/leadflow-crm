@@ -176,3 +176,277 @@ html {
 ::-webkit-scrollbar-corner {
   background: #09090b;
 }
+
+/* ======================================== */
+/* LEADFLOW — CINEMATIC SAAS ATMOSPHERE     */
+/* ======================================== */
+
+.leadflow-cinematic {
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+  background:
+    radial-gradient(
+      circle at 50% -20%,
+      rgba(255, 255, 255, 0.025),
+      transparent 32%
+    ),
+    #070708;
+}
+
+/* Camada global atrás de toda a aplicação */
+
+.leadflow-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* GRID TÉCNICO */
+
+.leadflow-grid {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px
+    );
+
+  background-size: 72px 72px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.65),
+      transparent 90%
+    );
+
+  opacity: 0.5;
+}
+
+/* LUZES AMBIENTE */
+
+.leadflow-glow {
+  position: absolute;
+
+  width: 55vw;
+  height: 55vw;
+
+  min-width: 600px;
+  min-height: 600px;
+
+  border-radius: 9999px;
+
+  filter: blur(120px);
+
+  will-change: transform;
+
+  opacity: 0.4;
+}
+
+/* Luz vermelha principal */
+
+.leadflow-glow-primary {
+  top: -32%;
+  right: -18%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(179, 38, 45, 0.28) 0%,
+      rgba(179, 38, 45, 0.12) 28%,
+      rgba(179, 38, 45, 0.035) 52%,
+      transparent 72%
+    );
+
+  animation:
+    leadflowAmbientPrimary 18s ease-in-out infinite alternate;
+}
+
+/* Luz secundária */
+
+.leadflow-glow-secondary {
+  bottom: -40%;
+  left: 10%;
+
+  width: 42vw;
+  height: 42vw;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(120, 20, 28, 0.16) 0%,
+      rgba(100, 15, 22, 0.05) 45%,
+      transparent 72%
+    );
+
+  animation:
+    leadflowAmbientSecondary 24s ease-in-out infinite alternate;
+}
+
+/* FEIXE DE LUZ */
+
+.leadflow-light-beam {
+  position: absolute;
+
+  top: -40%;
+  left: 42%;
+
+  width: 15vw;
+  height: 130vh;
+
+  min-width: 180px;
+
+  transform: rotate(19deg);
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 5%,
+      rgba(179, 38, 45, 0.025) 30%,
+      rgba(255, 255, 255, 0.018) 50%,
+      rgba(179, 38, 45, 0.018) 68%,
+      transparent 90%
+    );
+
+  filter: blur(35px);
+
+  opacity: 0.65;
+
+  animation:
+    leadflowBeam 22s ease-in-out infinite alternate;
+}
+
+/* VINHETA CINEMATOGRÁFICA */
+
+.leadflow-vignette {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 30%,
+      rgba(0, 0, 0, 0.18) 68%,
+      rgba(0, 0, 0, 0.62) 115%
+    );
+}
+
+/* TEXTURA / FILM GRAIN */
+
+.leadflow-noise {
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+
+  opacity: 0.012;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+
+  animation:
+    leadflowNoise 0.25s steps(2) infinite;
+}
+
+/* ======================================== */
+/* MOTION                                   */
+/* ======================================== */
+
+@keyframes leadflowAmbientPrimary {
+  0% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate3d(-5vw, 6vh, 0)
+      scale(1.08);
+  }
+
+  100% {
+    transform:
+      translate3d(-9vw, 2vh, 0)
+      scale(0.96);
+  }
+}
+
+@keyframes leadflowAmbientSecondary {
+  0% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(0.95);
+  }
+
+  50% {
+    transform:
+      translate3d(7vw, -5vh, 0)
+      scale(1.08);
+  }
+
+  100% {
+    transform:
+      translate3d(3vw, -10vh, 0)
+      scale(1);
+  }
+}
+
+@keyframes leadflowBeam {
+  0% {
+    transform:
+      translate3d(-4vw, 0, 0)
+      rotate(19deg);
+  }
+
+  100% {
+    transform:
+      translate3d(8vw, 3vh, 0)
+      rotate(23deg);
+  }
+}
+
+@keyframes leadflowNoise {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(2%, -1%, 0);
+  }
+
+  50% {
+    transform: translate3d(-1%, 2%, 0);
+  }
+
+  75% {
+    transform: translate3d(1%, 1%, 0);
+  }
+
+  100% {
+    transform: translate3d(-2%, -1%, 0);
+  }
+}
+
+/* ======================================== */
+/* ACESSIBILIDADE — REDUZIR MOVIMENTO       */
+/* ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .leadflow-glow-primary,
+  .leadflow-glow-secondary,
+  .leadflow-light-beam,
+  .leadflow-noise {
+    animation: none;
+  }
+}

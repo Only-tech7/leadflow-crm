@@ -106,7 +106,7 @@ export default function CustomerDetailsPage() {
 
   if (!loaded) {
     return (
-      <div className="min-h-screen bg-[#09090b] px-6 py-8 text-white">
+      <div className="min-h-screen px-6 py-8 text-white">
         <div className="mx-auto max-w-[1500px]">
           <p className="text-sm text-zinc-500">
             Carregando cliente...
@@ -118,7 +118,7 @@ export default function CustomerDetailsPage() {
 
   if (!customer) {
     return (
-      <div className="min-h-screen bg-[#09090b] px-6 py-8 text-white">
+      <div className="min-h-screen px-6 py-8 text-white">
         <div className="mx-auto max-w-[1500px]">
           <Link
             href="/customers"
@@ -143,340 +143,225 @@ export default function CustomerDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">
+    <div className="min-h-screen px-6 py-7 text-white lg:px-8 lg:py-9">
       <div className="mx-auto max-w-[1600px]">
-
-        {/* VOLTAR */}
-
         <Link
           href="/customers"
-          className="inline-flex items-center gap-2 text-sm text-zinc-500 transition hover:text-white"
+          className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.16em] text-zinc-600 transition hover:text-zinc-300"
         >
-          <ArrowLeft className="h-4 w-4" />
-          Voltar para clientes
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Customer base
         </Link>
 
-        {/* CABEÇALHO */}
-
-        <section className="mt-6 rounded-3xl border border-white/[0.07] bg-[#111114] p-6 lg:p-8">
-          <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
-
+        {/* CUSTOMER DOSSIER */}
+        <section className="mt-6 border-b border-white/[0.07] pb-7">
+          <div className="flex flex-col gap-7 xl:flex-row xl:items-end xl:justify-between">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/[0.05] px-3 py-1.5 text-xs font-medium text-emerald-300">
-                <CheckCircle2 className="h-3.5 w-3.5" />
-                Cliente convertido
+              <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em]">
+                <span className="text-[#d84a50]">CUSTOMER DOSSIER</span>
+                <span className="h-px w-8 bg-white/[0.08]" />
+                <span className="flex items-center gap-2 text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  Converted
+                </span>
               </div>
 
-              <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-zinc-100">
+              <h1 className="mt-5 text-4xl font-semibold tracking-[-0.055em] text-zinc-100 lg:text-5xl">
                 {customer.name}
               </h1>
 
-              <div className="mt-3 flex items-center gap-2 text-sm text-zinc-500">
-                <Building2 className="h-4 w-4" />
+              <div className="mt-3 flex items-center gap-2 text-sm text-zinc-400">
+                <Building2 className="h-4 w-4 text-zinc-600" />
                 {customer.company}
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#b3262d]/20 bg-[#b3262d]/[0.055] px-6 py-5">
-              <p className="text-xs uppercase tracking-[0.16em] text-[#d84a50]">
-                Valor fechado
+            <div className="xl:text-right">
+              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-600">
+                Closed revenue
               </p>
-
-              <p className="mt-2 text-3xl font-semibold text-white">
+              <p className="mt-2 text-4xl font-semibold tracking-[-0.05em] text-zinc-100">
                 {formatCurrency(customer.value)}
               </p>
+              <div className="mt-2 flex items-center gap-2 text-xs text-emerald-400 xl:justify-end">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                Conversão concluída
+              </div>
             </div>
-
           </div>
         </section>
 
-        {/* INDICADORES */}
-
-        <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-          <div className="rounded-2xl border border-white/[0.07] bg-[#111114] p-5">
-            <Package className="h-5 w-5 text-[#d84a50]" />
-
-            <p className="mt-5 text-xs uppercase tracking-[0.15em] text-zinc-600">
-              Produto
-            </p>
-
-            <p className="mt-2 text-lg font-semibold text-zinc-100">
-              {customer.product}
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-white/[0.07] bg-[#111114] p-5">
-            <Megaphone className="h-5 w-5 text-[#d84a50]" />
-
-            <p className="mt-5 text-xs uppercase tracking-[0.15em] text-zinc-600">
-              Campanha
-            </p>
-
-            <p className="mt-2 text-sm font-medium text-zinc-200">
-              {customer.campaign}
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-white/[0.07] bg-[#111114] p-5">
-            <UserRound className="h-5 w-5 text-[#d84a50]" />
-
-            <p className="mt-5 text-xs uppercase tracking-[0.15em] text-zinc-600">
-              Responsável
-            </p>
-
-            <p className="mt-2 text-lg font-semibold text-zinc-100">
-              {customer.owner}
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-white/[0.07] bg-[#111114] p-5">
-            <CalendarDays className="h-5 w-5 text-[#d84a50]" />
-
-            <p className="mt-5 text-xs uppercase tracking-[0.15em] text-zinc-600">
-              Conversão
-            </p>
-
-            <p className="mt-2 text-sm font-medium text-zinc-200">
-              {formatDate(customer.convertedAt)}
-            </p>
-          </div>
-
+        {/* COMMERCIAL SIGNALS */}
+        <section className="grid border-b border-white/[0.07] sm:grid-cols-2 xl:grid-cols-4">
+          {[
+            { label: "Produto", value: customer.product, icon: Package },
+            { label: "Campanha", value: customer.campaign, icon: Megaphone },
+            { label: "Responsável", value: customer.owner, icon: UserRound },
+            { label: "Conversão", value: formatDate(customer.convertedAt), icon: CalendarDays },
+          ].map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <article
+                key={item.label}
+                className={`py-6 sm:px-5 xl:px-6 ${
+                  index === 0 ? "sm:pl-0 xl:pl-0" : ""
+                } ${index < 3 ? "xl:border-r xl:border-white/[0.06]" : ""}`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-600">
+                      0{index + 1} / {item.label}
+                    </p>
+                    <p className={`${index === 3 ? "text-sm" : "text-lg"} mt-3 font-medium text-zinc-200`}>
+                      {item.value}
+                    </p>
+                  </div>
+                  <Icon className="mt-1 h-4 w-4 text-[#d84a50]" />
+                </div>
+              </article>
+            );
+          })}
         </section>
 
-        {/* CONTEÚDO */}
-
-        <section className="mt-6 grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
-
-          {/* JORNADA REAL */}
-
-          <article className="rounded-3xl border border-white/[0.07] bg-[#111114] p-6 lg:p-7">
-
-            <div className="flex items-start justify-between gap-4">
-
+        <section className="mt-8 grid gap-8 xl:grid-cols-[1.35fr_0.65fr]">
+          {/* JOURNEY LOG */}
+          <article>
+            <div className="flex items-end justify-between gap-4 border-b border-white/[0.07] pb-4">
               <div>
-                <p className="text-lg font-semibold text-zinc-100">
+                <div className="flex items-center gap-3">
+                  <span className="h-2 w-2 rounded-full bg-[#d84a50] shadow-[0_0_12px_rgba(216,74,80,0.6)]" />
+                  <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-500">
+                    Journey Log / {history.length} events
+                  </p>
+                </div>
+                <h2 className="mt-2 text-xl font-semibold tracking-[-0.025em] text-zinc-100">
                   Jornada comercial
-                </p>
-
+                </h2>
                 <p className="mt-1 text-sm text-zinc-500">
-                  Histórico real das movimentações realizadas durante a negociação.
+                  Registro cronológico da negociação até a conversão.
                 </p>
               </div>
-
-              <span className="rounded-full border border-white/[0.07] bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-500">
-                {history.length} eventos
-              </span>
-
             </div>
 
             {history.length > 0 ? (
-              <div className="mt-8">
-
+              <div className="pt-6">
                 {history.map((event, index) => {
-                  const isLast =
-                    index === history.length - 1;
-
-                  const converted =
-                    event.type === "converted";
+                  const isLast = index === history.length - 1;
+                  const converted = event.type === "converted";
 
                   return (
-                    <div
-                      key={event.id}
-                      className="relative flex gap-5 pb-8 last:pb-0"
-                    >
-
+                    <div key={event.id} className="relative flex gap-5 pb-8 last:pb-0">
                       {!isLast && (
-                        <div className="absolute left-[19px] top-10 h-[calc(100%-20px)] w-px bg-white/[0.08]" />
+                        <div className="absolute left-[15px] top-8 h-[calc(100%-8px)] w-px bg-white/[0.08]" />
                       )}
 
-                      <div
-                        className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
-                          converted
-                            ? "border-emerald-500/20 bg-emerald-500/[0.08]"
-                            : "border-[#b3262d]/20 bg-[#b3262d]/[0.07]"
-                        }`}
-                      >
-                        <CheckCircle2
-                          className={`h-4 w-4 ${
-                            converted
-                              ? "text-emerald-400"
-                              : "text-[#d84a50]"
-                          }`}
-                        />
+                      <div className={`relative z-10 mt-1 flex h-8 w-8 shrink-0 items-center justify-center border ${
+                        converted
+                          ? "border-emerald-500/25 bg-emerald-500/[0.07]"
+                          : "border-[#b3262d]/25 bg-[#b3262d]/[0.055]"
+                      }`}>
+                        <CheckCircle2 className={`h-3.5 w-3.5 ${
+                          converted ? "text-emerald-400" : "text-[#d84a50]"
+                        }`} />
                       </div>
 
-                      <div className="min-w-0 flex-1 pt-0.5">
-
+                      <div className="min-w-0 flex-1 border-b border-white/[0.045] pb-7">
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-
                           <div>
                             <div className="flex flex-wrap items-center gap-2">
-
                               <p className="text-sm font-semibold text-zinc-200">
                                 {event.title}
                               </p>
-
-                              <span
-                                className={`rounded-full border px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.12em] ${
-                                  converted
-                                    ? "border-emerald-500/15 bg-emerald-500/[0.05] text-emerald-400"
-                                    : "border-white/[0.07] bg-white/[0.025] text-zinc-600"
-                                }`}
-                              >
+                              <span className={`border px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] ${
+                                converted
+                                  ? "border-emerald-500/15 text-emerald-400"
+                                  : "border-white/[0.07] text-zinc-500"
+                              }`}>
                                 {getEventLabel(event)}
                               </span>
-
                             </div>
-
-                            <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
+                            <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
                               {event.description}
                             </p>
                           </div>
 
-                          <div className="flex shrink-0 items-center gap-1.5 text-[10px] text-zinc-600">
+                          <div className="flex shrink-0 items-center gap-1.5 font-mono text-[9px] text-zinc-600">
                             <Clock3 className="h-3 w-3" />
-
-                            {formatHistoryDate(
-                              event.createdAt,
-                            )}
+                            {formatHistoryDate(event.createdAt)}
                           </div>
-
                         </div>
 
-                        {event.fromStage &&
-                          event.toStage && (
-                            <div className="mt-3 inline-flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.025] px-3 py-1.5 text-[10px] text-zinc-600">
-                              <span>
-                                {event.fromStage}
-                              </span>
-
-                              <span>→</span>
-
-                              <span className="font-medium text-zinc-300">
-                                {event.toStage}
-                              </span>
-                            </div>
-                          )}
-
+                        {event.fromStage && event.toStage && (
+                          <div className="mt-3 inline-flex items-center gap-2 border-l border-[#b3262d]/35 pl-3 font-mono text-[9px] uppercase tracking-[0.1em] text-zinc-500">
+                            <span>{event.fromStage}</span>
+                            <span className="text-zinc-700">→</span>
+                            <span className="text-zinc-300">{event.toStage}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
                 })}
-
               </div>
             ) : (
-              <div className="mt-8 rounded-2xl border border-dashed border-white/[0.08] px-6 py-12 text-center">
-
-                <Clock3 className="mx-auto h-6 w-6 text-zinc-700" />
-
+              <div className="mt-6 border border-dashed border-white/[0.08] px-6 py-12 text-center">
+                <Clock3 className="mx-auto h-5 w-5 text-zinc-600" />
                 <p className="mt-4 text-sm font-medium text-zinc-400">
                   Nenhum histórico registrado
                 </p>
-
-                <p className="mx-auto mt-2 max-w-md text-xs leading-5 text-zinc-600">
+                <p className="mx-auto mt-2 max-w-md text-xs leading-5 text-zinc-500">
                   Este cliente foi convertido antes da implementação do histórico comercial.
-                  Novas oportunidades terão toda a jornada registrada automaticamente.
+                  Novas oportunidades terão a jornada registrada automaticamente.
                 </p>
-
               </div>
             )}
-
           </article>
 
-          {/* DETALHES */}
-
-          <article className="rounded-3xl border border-white/[0.07] bg-[#111114] p-6 lg:p-7">
-
-            <p className="text-lg font-semibold text-zinc-100">
-              Detalhes da conversão
-            </p>
-
-            <p className="mt-1 text-sm text-zinc-500">
-              Informações comerciais relacionadas ao fechamento.
-            </p>
-
-            <div className="mt-6 space-y-3">
-
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-zinc-600">
-                  Origem
-                </p>
-
-                <p className="mt-2 text-sm font-medium text-zinc-200">
-                  {customer.source}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-zinc-600">
-                  Campanha
-                </p>
-
-                <p className="mt-2 text-sm font-medium text-zinc-200">
-                  {customer.campaign}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-zinc-600">
-                  Produto
-                </p>
-
-                <p className="mt-2 text-sm font-medium text-zinc-200">
-                  {customer.product}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-zinc-600">
-                  Executivo responsável
-                </p>
-
-                <p className="mt-2 text-sm font-medium text-zinc-200">
-                  {customer.owner}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-zinc-600">
-                  Data do fechamento
-                </p>
-
-                <p className="mt-2 text-sm font-medium text-zinc-200">
-                  {formatDate(customer.convertedAt)}
-                </p>
-              </div>
-
+          {/* CONVERSION INTELLIGENCE */}
+          <aside className="border-l border-white/[0.07] xl:pl-8">
+            <div className="border-b border-white/[0.07] pb-4">
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-500">
+                Conversion Data
+              </p>
+              <h2 className="mt-2 text-xl font-semibold tracking-[-0.025em] text-zinc-100">
+                Dados do fechamento
+              </h2>
             </div>
 
-            {/* RECEITA */}
+            <div className="divide-y divide-white/[0.055]">
+              {[
+                ["Origem", customer.source],
+                ["Campanha", customer.campaign],
+                ["Produto", customer.product],
+                ["Executivo", customer.owner],
+                ["Data do fechamento", formatDate(customer.convertedAt)],
+              ].map(([label, value]) => (
+                <div key={label} className="py-4">
+                  <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-zinc-600">
+                    {label}
+                  </p>
+                  <p className="mt-2 text-sm font-medium text-zinc-300">{value}</p>
+                </div>
+              ))}
+            </div>
 
-            <div className="mt-5 rounded-3xl border border-emerald-500/15 bg-emerald-500/[0.035] p-5">
-
+            <div className="mt-6 border-t border-emerald-500/20 pt-5">
               <div className="flex items-center gap-2">
                 <CircleDollarSign className="h-4 w-4 text-emerald-400" />
-
-                <p className="text-xs font-medium uppercase tracking-[0.14em] text-emerald-400/80">
-                  Receita gerada
+                <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-emerald-400">
+                  Revenue generated
                 </p>
               </div>
-
-              <p className="mt-3 text-3xl font-semibold text-emerald-300">
+              <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-zinc-100">
                 {formatCurrency(customer.value)}
               </p>
-
-              <div className="mt-4 flex items-center gap-2 text-xs text-zinc-600">
-                <Target className="h-3.5 w-3.5" />
+              <div className="mt-3 flex items-center gap-2 text-xs text-zinc-500">
+                <Target className="h-3.5 w-3.5 text-zinc-600" />
                 Conversão concluída com sucesso
               </div>
-
             </div>
-
-          </article>
-
+          </aside>
         </section>
-
       </div>
     </div>
   );

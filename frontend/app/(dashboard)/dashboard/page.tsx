@@ -21,8 +21,6 @@ import {
   X,
 } from "lucide-react";
 
-import StatCard from "@/components/dashboard/StatCard";
-
 import {
   getPipelineOpportunities,
   getStoredCustomers,
@@ -575,601 +573,230 @@ export default function DashboardPage() {
   }, [crmLoaded, filteredPipeline]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-6 py-6 text-white lg:px-8 lg:py-8">
-      <div className="mx-auto max-w-[1600px]">
-        {/* Cabeçalho principal */}
-        <section className="relative overflow-hidden rounded-3xl border border-white/[0.07] bg-[#111114] p-6 lg:p-8">
-          <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#b3262d]/12 blur-[100px]" />
-          <div className="absolute -bottom-32 left-1/3 h-64 w-64 rounded-full bg-[#7d171c]/8 blur-[100px]" />
+    <div className="relative min-h-screen overflow-hidden px-5 py-6 text-white lg:px-8 lg:py-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[620px] bg-[radial-gradient(circle_at_72%_5%,rgba(179,38,45,0.14),transparent_34%)]" />
 
-          <div className="relative flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
-            <div className="max-w-3xl">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#b3262d]/30 bg-[#b3262d]/10 px-3 py-1.5 text-xs font-medium text-[#ef8b90]">
-              <Sparkles className="h-3.5 w-3.5" />
-              Resumo executivo da operação
+      <div className="relative mx-auto max-w-[1600px]">
+        {/* CONTROL ROOM / HERO */}
+        <section className="relative border-b border-white/[0.08] pb-8 lg:pb-10">
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-600">
+            <div className="flex items-center gap-3">
+              <span className="text-[#d84a50]">01 / Control room</span>
+              <span className="hidden h-px w-12 bg-white/10 sm:block" />
+              <span>Sales intelligence</span>
             </div>
 
-              <h1 className="text-3xl font-semibold tracking-[-0.04em] text-zinc-100 lg:text-4xl">
-                {dashboardSummary.greeting} 
+            <div className="flex items-center gap-5">
+              <span className="hidden md:inline">LF / OPS-01</span>
+              <span className="inline-flex items-center gap-2 text-zinc-400">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#d84a50] shadow-[0_0_12px_rgba(216,74,80,0.8)]" />
+                System live
+              </span>
+            </div>
+          </div>
+
+          <div className="grid gap-10 xl:grid-cols-[1.1fr_0.9fr] xl:items-end">
+            <div>
+              <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-zinc-500">
+                {dashboardSummary.greeting}
+              </p>
+              <h1 className="max-w-4xl text-[clamp(2.8rem,6vw,6.4rem)] font-semibold leading-[0.88] tracking-[-0.065em] text-zinc-100">
+                Operação
+                <span className="block text-zinc-500">comercial.</span>
               </h1>
 
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-400 lg:text-base">
-                {crmLoaded
-                  ? `Hoje existem ${activeOpportunities} oportunidades abertas, ${priorityOpportunities} prioritárias e ${convertedCustomers} clientes convertidos na demonstração.`
-                  : dashboardSummary.message}
-              </p>
-
-               <button
+              <div className="mt-7 flex max-w-2xl flex-col gap-5 border-l border-[#b3262d]/45 pl-5 sm:flex-row sm:items-end sm:justify-between">
+                <p className="max-w-xl text-sm leading-7 text-zinc-500 lg:text-base">
+                  {crmLoaded
+                    ? `${activeOpportunities} oportunidades abertas, ${priorityOpportunities} prioritárias e ${convertedCustomers} clientes convertidos neste recorte.`
+                    : dashboardSummary.message}
+                </p>
+                <button
                   type="button"
                   onClick={() => setIsIntelligenceOpen(true)}
-                  className="group inline-flex items-center gap-2 text-sm font-medium text-[#d84a50] transition hover:text-[#ef8b90]"
+                  className="group inline-flex shrink-0 items-center gap-2 text-sm font-medium text-zinc-300 transition hover:text-white"
                 >
-                  Analisar operação
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  Abrir análise
+                  <ArrowRight className="h-4 w-4 text-[#d84a50] transition-transform group-hover:translate-x-1" />
                 </button>
+              </div>
             </div>
 
-            <div className="grid min-w-full gap-3 sm:grid-cols-2 xl:min-w-[430px]">
-              <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-4 transition hover:border-white/[0.12] hover:bg-white/[0.045]">
-                <p className="text-xs uppercase tracking-[0.16em] text-zinc-600">
-                  Receita potencial
-                </p>
-
-                <p className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-zinc-100">
-                  {crmLoaded
-                    ? formatCurrency(activePipelineValue)
-                    : dashboardSummary.potentialRevenue}
-                </p>
+            <div className="xl:pb-1">
+              <div className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">
+                <span>Pipeline ativo</span>
+                <span>BRL / LIVE</span>
               </div>
-
-              <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-4 transition hover:border-white/[0.12] hover:bg-white/[0.045]">
-                <p className="text-xs uppercase tracking-[0.16em] text-zinc-600">
-                  Oportunidades prioritárias
-                </p>
-
-                <div className="mt-3 flex items-end justify-between gap-4">
-                  <p className="text-2xl font-semibold tracking-[-0.03em] text-zinc-100">
-                    {crmLoaded
-                      ? priorityOpportunities
-                      : dashboardSummary.priorityOpportunities}
-                  </p>
-
-                  <span className="rounded-full bg-red-500/10 px-2.5 py-1 text-xs font-medium text-red-300">
-                    Atenção
-                  </span>
+              <p className="text-[clamp(3rem,6vw,5.7rem)] font-medium leading-none tracking-[-0.065em] text-zinc-100">
+                {crmLoaded
+                  ? formatCurrency(activePipelineValue)
+                  : dashboardSummary.potentialRevenue}
+              </p>
+              <div className="mt-5 grid grid-cols-3 border-y border-white/[0.08]">
+                <div className="py-4 pr-4">
+                  <p className="text-2xl font-semibold tracking-[-0.04em] text-zinc-200">{activeOpportunities}</p>
+                  <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-zinc-600">Abertas</p>
+                </div>
+                <div className="border-x border-white/[0.08] px-4 py-4">
+                  <p className="text-2xl font-semibold tracking-[-0.04em] text-zinc-200">{conversionRate.toFixed(1).replace('.', ',')}%</p>
+                  <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-zinc-600">Conversão</p>
+                </div>
+                <div className="py-4 pl-4">
+                  <p className="text-2xl font-semibold tracking-[-0.04em] text-[#e15b61]">{priorityOpportunities}</p>
+                  <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-zinc-600">Prioridade</p>
                 </div>
               </div>
             </div>
           </div>
-
-          {crmLoaded && lastCustomer && (
-            <div className="relative mt-6 overflow-hidden rounded-2xl border border-emerald-500/15 bg-emerald-500/[0.035] p-4">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-400/80">
-                    Último fechamento
-                  </p>
-
-                  <p className="mt-2 text-sm font-semibold text-zinc-100">
-                    {lastCustomer.company}
-                  </p>
-
-                  <p className="mt-1 text-xs text-zinc-500">
-                    {lastCustomer.name} · {lastCustomer.product} ·{" "}
-                    {lastCustomer.campaign}
-                  </p>
-                </div>
-
-                <div className="text-left sm:text-right">
-                  <p className="text-xl font-semibold text-emerald-300">
-                    {formatCurrency(lastCustomer.value)}
-                  </p>
-
-                  <p className="mt-1 text-[10px] text-zinc-600">
-                    Convertido em cliente
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
         </section>
 
-        {/* Filtro por produto */}
-        <section className="mt-6">
-          <div className="flex flex-col gap-4 rounded-2xl border border-white/[0.07] bg-[#111114] p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-600">
-                Visualizar operação
-              </p>
-              <p className="mt-1 text-sm text-zinc-400">
-                {selectedProduct === "Todos"
-                  ? "Visão consolidada de todos os produtos"
-                  : `Indicadores comerciais de ${selectedProduct}`}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {(["Todos", "Roupas", "Canecas", "Livros"] as const).map((product) => {
-                const active = selectedProduct === product;
-                return (
-                  <button
-                    key={product}
-                    type="button"
-                    onClick={() => setSelectedProduct(product)}
-                    className={`rounded-xl border px-4 py-2 text-sm font-medium transition ${
-                      active
-                        ? "border-[#b3262d]/50 bg-[#b3262d]/15 text-[#ef8b90]"
-                        : "border-white/[0.07] bg-white/[0.025] text-zinc-500 hover:border-white/[0.12] hover:text-zinc-300"
-                    }`}
-                  >
-                    {product === "Todos" ? "Geral" : product}
-                  </button>
-                );
-              })}
-            </div>
+        {/* OPERATION FILTER */}
+        <section className="flex flex-col gap-5 border-b border-white/[0.08] py-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">View /</span>
+            <span className="text-sm text-zinc-400">
+              {selectedProduct === "Todos" ? "Operação consolidada" : selectedProduct}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {(["Todos", "Roupas", "Canecas", "Livros"] as const).map((product) => {
+              const active = selectedProduct === product;
+              return (
+                <button
+                  key={product}
+                  type="button"
+                  onClick={() => setSelectedProduct(product)}
+                  className={`relative px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] transition ${
+                    active ? "text-white" : "text-zinc-600 hover:text-zinc-300"
+                  }`}
+                >
+                  {product === "Todos" ? "Geral" : product}
+                  {active && <span className="absolute inset-x-3 -bottom-[21px] h-px bg-[#d84a50] shadow-[0_0_10px_rgba(216,74,80,0.65)]" />}
+                </button>
+              );
+            })}
           </div>
         </section>
 
-        {/* Indicadores */}
-        <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {/* KPI STRIP */}
+        <section className="grid border-b border-white/[0.08] sm:grid-cols-2 xl:grid-cols-4">
           {dynamicDashboardStats.map((stat, index) => {
             const Icon = statIcons[index];
-
-            return <StatCard key={stat.id} stat={stat} icon={Icon} />;
+            return (
+              <div key={stat.id} className="group relative min-h-44 border-white/[0.08] px-1 py-7 sm:px-6 sm:[&:nth-child(even)]:border-l xl:border-l xl:first:border-l-0">
+                <div className="flex items-center justify-between">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">0{index + 1} / {stat.title}</p>
+                  <Icon className="h-4 w-4 text-zinc-700 transition group-hover:text-[#d84a50]" />
+                </div>
+                <p className="mt-7 text-3xl font-semibold tracking-[-0.05em] text-zinc-200 lg:text-4xl">{stat.value}</p>
+                <div className="mt-4 flex items-center justify-between gap-3 text-xs">
+                  <span className="text-zinc-600">{stat.description}</span>
+                  <span className="shrink-0 text-zinc-400">{stat.variation}</span>
+                </div>
+              </div>
+            );
           })}
         </section>
 
-        {/* Meta mensal + gráfico */}
-        <section className="mt-6 grid gap-6 xl:grid-cols-[0.72fr_1.28fr]">
-          <article className="relative overflow-hidden rounded-3xl border border-white/[0.07] bg-[#111114] p-6">
-            <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#b3262d]/12 blur-[80px]" />
+        {/* PERFORMANCE */}
+        <section className="grid border-b border-white/[0.08] xl:grid-cols-[0.72fr_1.28fr]">
+          <article className="relative px-1 py-8 sm:px-6 xl:border-r xl:border-white/[0.08] xl:py-10">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#d84a50]">02 / Target monitor</p>
+                <h2 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-zinc-100">
+                  {selectedProduct === "Todos" ? "Meta comercial" : `Meta / ${selectedProduct}`}
+                </h2>
+              </div>
+              <button type="button" onClick={openGoalModal} className="inline-flex items-center gap-2 border border-white/[0.08] px-3 py-2 text-xs text-zinc-500 transition hover:border-[#b3262d]/35 hover:text-zinc-200">
+                <Settings2 className="h-3.5 w-3.5" /> Ajustar
+              </button>
+            </div>
 
-            <div className="relative">
-              <div className="flex items-start justify-between gap-4">
+            <div className="mt-12">
+              <div className="flex items-end justify-between gap-4">
                 <div>
-                  <p className="text-lg font-semibold text-zinc-100">
-                    {selectedProduct === "Todos"
-                      ? "Meta comercial geral do mês"
-                      : `Meta comercial — ${selectedProduct}`}
-                  </p>
-
-                  <p className="mt-1 text-sm text-zinc-500">
-                    {selectedProduct === "Todos"
-                      ? "Progresso consolidado de toda a operação."
-                      : `Acompanhamento exclusivo da meta de ${selectedProduct}.`}
-                  </p>
+                  <p className="text-xs uppercase tracking-[0.14em] text-zinc-600">Receita alcançada</p>
+                  <p className="mt-2 text-4xl font-semibold tracking-[-0.055em] text-zinc-100">{formatCurrency(currentAchievedRevenue)}</p>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={openGoalModal}
-                  className="flex h-11 items-center gap-2 rounded-xl border border-[#b3262d]/25 bg-[#b3262d]/10 px-3 text-xs font-medium text-[#ef8b90] transition hover:bg-[#b3262d]/15"
-                >
-                  <Settings2 className="h-4 w-4" />
-                  Definir metas
-                </button>
+                <p className="font-mono text-lg text-[#e15b61]">{goalPercentage.toFixed(1).replace('.', ',')}%</p>
               </div>
-
-              <div className="mt-8">
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <p className="text-sm text-zinc-500">Receita alcançada</p>
-
-                    <p className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-zinc-100">
-                      {crmLoaded
-                        ? formatCurrency(currentAchievedRevenue)
-                        : monthlyGoal.achievedFormatted}
-                    </p>
-                  </div>
-
-                  <p className="text-2xl font-semibold text-[#e15b61]">
-                    {crmLoaded
-                      ? `${goalPercentage.toFixed(1).replace(".", ",")}%`
-                      : `${monthlyGoal.percentage}%`}
-                  </p>
-                </div>
-
-                <div className="mt-6 h-3 overflow-hidden rounded-full bg-white/[0.06]">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#7d171c] via-[#b3262d] to-[#e15b61] shadow-[0_0_20px_rgba(179,38,45,0.3)]"
-                    style={{
-                      width: `${Math.min(
-                        crmLoaded ? goalPercentage : monthlyGoal.percentage,
-                        100,
-                      )}%`,
-                    }}
-                  />
-                </div>
-
-                <div className="mt-3 flex items-center justify-between text-xs">
-                  <span className="text-zinc-600">R$ 0</span>
-                  <span className="text-zinc-500">
-                    Meta: {formatCurrency(currentGoalTarget)}
-                  </span>
-                </div>
+              <div className="relative mt-7 h-px bg-white/[0.08]">
+                <div className="absolute left-0 top-0 h-px bg-[#d84a50] shadow-[0_0_14px_rgba(216,74,80,0.65)]" style={{ width: `${Math.min(goalPercentage, 100)}%` }} />
+                <span className="absolute -top-1 h-2 w-2 -translate-x-1/2 rounded-full bg-[#e15b61] shadow-[0_0_14px_rgba(216,74,80,0.8)]" style={{ left: `${Math.min(goalPercentage, 100)}%` }} />
               </div>
+              <div className="mt-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.12em] text-zinc-700"><span>0</span><span>Meta {formatCurrency(currentGoalTarget)}</span></div>
+            </div>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-zinc-600">
-                    Falta para a meta
-                  </p>
-
-                  <p className="mt-2 text-lg font-semibold text-zinc-200">
-                    {crmLoaded
-                      ? formatCurrency(goalRemaining)
-                      : monthlyGoal.remainingFormatted}
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-emerald-500/10 bg-emerald-500/[0.035] p-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-emerald-500/70">
-                    Projeção de fechamento
-                  </p>
-
-                  <p className="mt-2 text-lg font-semibold text-emerald-300">
-                    {crmLoaded
-                      ? formatCurrency(projectedClosing)
-                      : monthlyGoal.projectedClosingFormatted}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-3 rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.14em] text-zinc-600">
-                      Ticket médio
-                    </p>
-
-                    <p className="mt-2 text-lg font-semibold text-zinc-200">
-                      {crmLoaded
-                      ? convertedCustomers > 0
-                        ? formatCurrency(customerAverageTicket)
-                        : "R$ 0"
-                      : monthlyGoal.averageTicketFormatted}
-                    </p>
-                  </div>
-
-                  <TrendingUp className="h-5 w-5 text-emerald-400" />
-                </div>
-              </div>
+            <div className="mt-10 grid grid-cols-3 border-t border-white/[0.08] pt-6">
+              <div><p className="text-[10px] uppercase tracking-[0.14em] text-zinc-600">Restante</p><p className="mt-2 text-sm font-medium text-zinc-300">{formatCurrency(goalRemaining)}</p></div>
+              <div className="border-x border-white/[0.08] px-4"><p className="text-[10px] uppercase tracking-[0.14em] text-zinc-600">Projeção</p><p className="mt-2 text-sm font-medium text-emerald-300">{formatCurrency(projectedClosing)}</p></div>
+              <div className="pl-4"><p className="text-[10px] uppercase tracking-[0.14em] text-zinc-600">Ticket</p><p className="mt-2 text-sm font-medium text-zinc-300">{convertedCustomers > 0 ? formatCurrency(customerAverageTicket) : "R$ 0"}</p></div>
             </div>
           </article>
 
-          <article className="rounded-3xl border border-white/[0.07] bg-[#111114] p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <article className="px-1 py-8 sm:px-6 xl:py-10">
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-lg font-semibold text-zinc-100">
-                  Evolução da receita potencial
-                </p>
-
-                <p className="mt-1 text-sm text-zinc-500">
-                  Crescimento acumulado nos últimos seis meses.
-                </p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">Performance / 06 months</p>
+                <h2 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-zinc-100">Evolução da receita potencial</h2>
               </div>
-
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/[0.06] px-3 py-1.5 text-xs font-medium text-emerald-300">
-                <TrendingUp className="h-3.5 w-3.5" />
-                +18,4% este mês
-              </div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-emerald-400">↗ 18,4% / month</div>
             </div>
-
             <div className="mt-8 overflow-hidden">
-              <svg
-                viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-                className="h-[230px] w-full overflow-visible"
-                role="img"
-                aria-label="Gráfico de evolução da receita potencial"
-              >
+              <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="h-[250px] w-full overflow-visible" role="img" aria-label="Gráfico de evolução da receita potencial">
                 <defs>
-                  <linearGradient
-                    id="revenueArea"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                   <stop offset="0%" stopColor="#b3262d" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#b3262d" stopOpacity="0" />
-                  </linearGradient>
-
-                  <linearGradient
-                    id="revenueLine"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="0"
-                  >
-                    <stop offset="0%" stopColor="#8f1d23" />
-                    <stop offset="100%" stopColor="#e15b61" />
-                  </linearGradient>
-
-                  <filter id="lineGlow">
-                    <feGaussianBlur stdDeviation="4" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
+                  <linearGradient id="revenueAreaCinematic" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#b3262d" stopOpacity="0.22"/><stop offset="100%" stopColor="#b3262d" stopOpacity="0"/></linearGradient>
+                  <linearGradient id="revenueLineCinematic" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#72171c"/><stop offset="100%" stopColor="#e15b61"/></linearGradient>
                 </defs>
-
-                {[45, 90, 135, 180].map((y) => (
-                  <line
-                    key={y}
-                    x1="20"
-                    y1={y}
-                    x2="600"
-                    y2={y}
-                    stroke="rgba(255,255,255,0.05)"
-                    strokeWidth="1"
-                  />
-                ))}
-
-                <polygon points={chartArea} fill="url(#revenueArea)" />
-
-                <polyline
-                  points={chartLine}
-                  fill="none"
-                  stroke="url(#revenueLine)"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  filter="url(#lineGlow)"
-                />
-
-                {chartPoints.map((point) => (
-                  <g key={point.month}>
-                    <circle
-                      cx={point.x}
-                      cy={point.y}
-                      r="7"
-                      fill="#111114"
-                      stroke="#d84a50"
-                      strokeWidth="3"
-                    />
-
-                    <circle
-                      cx={point.x}
-                      cy={point.y}
-                      r="3"
-                      fill="#ffffff"
-                    />
-                  </g>
-                ))}
+                {[45,90,135,180].map((y)=><line key={y} x1="20" y1={y} x2="600" y2={y} stroke="rgba(255,255,255,0.045)" strokeWidth="1"/>) }
+                <polygon points={chartArea} fill="url(#revenueAreaCinematic)"/>
+                <polyline points={chartLine} fill="none" stroke="url(#revenueLineCinematic)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                {chartPoints.map((point)=><g key={point.month}><circle cx={point.x} cy={point.y} r="5" fill="#09090b" stroke="#d84a50" strokeWidth="2"/><circle cx={point.x} cy={point.y} r="1.5" fill="#fff"/></g>)}
               </svg>
-
-              <div className="grid grid-cols-6 gap-2 px-1">
-                {revenuePerformance.map((performance) => (
-                  <div key={performance.month} className="text-center">
-                    <p className="text-xs text-zinc-600">
-                      {performance.month}
-                    </p>
-
-                    <p className="mt-1 text-xs font-medium text-zinc-400">
-                      R$ {performance.value}k
-                    </p>
-                  </div>
-                ))}
-              </div>
+              <div className="grid grid-cols-6 gap-2 border-t border-white/[0.06] pt-4">{revenuePerformance.map((performance)=><div key={performance.month}><p className="font-mono text-[10px] uppercase tracking-[0.12em] text-zinc-700">{performance.month}</p><p className="mt-1 text-xs text-zinc-500">R$ {performance.value}k</p></div>)}</div>
             </div>
           </article>
         </section>
 
-        {/* Pipeline + IA */}
-        <section className="mt-6 grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
-          <article className="rounded-3xl border border-white/[0.07] bg-[#111114] p-6 transition hover:border-white/[0.1]">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-lg font-semibold text-zinc-100">
-                  Visão do pipeline
-                </p>
-
-                <p className="mt-1 text-sm text-zinc-500">
-                  Distribuição das oportunidades por etapa comercial.
-                </p>
-              </div>
-
-            <button
-             type="button"
-               onClick={() => router.push("/pipeline")}
-              className="group inline-flex items-center gap-2 text-sm font-medium text-blue-400 transition hover:text-blue-300"
->
-              Abrir pipeline
-
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </button>
-                        </div>
-
-            <div className="mt-8 space-y-6">
-              {dynamicPipelineStages.map((stage) => (
-                <div key={stage.id}>
-                  <div className="mb-3 flex items-center justify-between gap-4">
-                    <div>
-                      <p className="text-sm font-medium text-zinc-200">
-                        {stage.name}
-                      </p>
-
-                      <p className="mt-1 text-xs text-zinc-600">
-                        {stage.opportunities} oportunidades
-                      </p>
-                    </div>
-
-                    <p className="text-sm font-medium text-zinc-300">
-                      {stage.value}
-                    </p>
-                  </div>
-
-                  <div className="h-2 overflow-hidden rounded-full bg-white/[0.05]">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#8f1d23] to-[#d84a50]"
-                      style={{ width: `${stage.percentage}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
+        {/* PIPELINE + INTELLIGENCE */}
+        <section className="grid border-b border-white/[0.08] xl:grid-cols-[1.25fr_0.75fr]">
+          <article className="px-1 py-8 sm:px-6 xl:border-r xl:border-white/[0.08] xl:py-10">
+            <div className="flex items-end justify-between gap-4">
+              <div><p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">03 / Pipeline signal</p><h2 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-zinc-100">Distribuição do funil</h2></div>
+              <button type="button" onClick={() => router.push('/pipeline')} className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-zinc-500 transition hover:text-white">Abrir pipeline <ArrowRight className="h-3.5 w-3.5 text-[#d84a50] transition-transform group-hover:translate-x-1"/></button>
+            </div>
+            <div className="mt-8">
+              {dynamicPipelineStages.map((stage,index)=><div key={stage.id} className="grid grid-cols-[32px_1fr_auto] items-center gap-4 border-t border-white/[0.06] py-4 first:border-t-0">
+                <span className="font-mono text-[10px] text-zinc-700">0{index+1}</span>
+                <div><div className="flex items-center justify-between gap-4"><p className="text-sm text-zinc-300">{stage.name}</p><p className="text-xs text-zinc-500">{stage.opportunities} ops.</p></div><div className="mt-2 h-px bg-white/[0.06]"><div className="h-px bg-gradient-to-r from-[#7d171c] to-[#d84a50]" style={{width:`${stage.percentage}%`}}/></div></div>
+                <p className="min-w-24 text-right text-sm font-medium text-zinc-300">{stage.value}</p>
+              </div>)}
             </div>
           </article>
 
-          <article className="relative overflow-hidden rounded-3xl border border-[#b3262d]/20 bg-[#141011] p-6">
-          <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#b3262d]/15 blur-[80px]" />
-
+          <article className="relative overflow-hidden px-1 py-8 sm:px-6 xl:py-10">
+            <div className="pointer-events-none absolute -right-20 top-0 h-64 w-64 rounded-full bg-[#b3262d]/10 blur-[90px]"/>
             <div className="relative">
-              <div className="flex items-center gap-3">
-                
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#b3262d]/25 bg-[#b3262d]/10">
-                  <Sparkles className="h-5 w-5 text-[#e15b61]" />
-                </div>
-
-                <div>
-                  <p className="text-lg font-semibold text-zinc-100">
-                    Inteligência comercial
-                  </p>
-
-                  <p className="text-xs text-zinc-500">
-                    Análises estratégicas para hoje
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-7 space-y-4">
-                {dynamicAiInsights.map((insight) => (
-                  <div
-                    key={insight.id}
-                    className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 transition hover:border-white/[0.12] hover:bg-white/[0.04]"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <p className="text-sm font-medium text-zinc-200">
-                        {insight.title}
-                      </p>
-
-                      <span
-                        className={`rounded-full border px-2 py-1 text-[10px] font-medium uppercase tracking-wider ${
-                          priorityStyles[insight.priority]
-                        }`}
-                      >
-                        {insight.priority === "high"
-                          ? "Alta"
-                          : insight.priority === "medium"
-                            ? "Média"
-                            : "Baixa"}
-                      </span>
-                    </div>
-
-                    <p className="mt-2 text-xs leading-5 text-zinc-500">
-                      {insight.description}
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={() => setIsIntelligenceOpen(true)}
-                      className="group mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-[#d84a50] transition hover:text-[#ef8b90]"
-                    >
-                      {insight.action}
-
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </button>
-                  </div>
-                ))}
+              <div className="flex items-center justify-between"><div><p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#d84a50]">04 / Decision engine</p><h2 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-zinc-100">Sinais da operação</h2></div><Sparkles className="h-4 w-4 text-zinc-700"/></div>
+              <div className="mt-8 space-y-0">
+                {dynamicAiInsights.map((insight,index)=><div key={insight.id} className="border-t border-white/[0.07] py-5 first:border-t-0 first:pt-0">
+                  <div className="flex gap-4"><span className="font-mono text-[10px] text-zinc-700">0{index+1}</span><div className="flex-1"><div className="flex items-start justify-between gap-3"><p className="text-sm font-medium text-zinc-200">{insight.title}</p><span className={`mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full ${insight.priority==='high'?'bg-[#d84a50]':insight.priority==='medium'?'bg-amber-400':'bg-zinc-500'}`}/></div><p className="mt-2 text-xs leading-6 text-zinc-600">{insight.description}</p><button type="button" onClick={()=>setIsIntelligenceOpen(true)} className="mt-3 text-[11px] uppercase tracking-[0.12em] text-zinc-400 transition hover:text-[#e15b61]">{insight.action} →</button></div></div>
+                </div>)}
               </div>
             </div>
           </article>
         </section>
 
-        {/* Atividades + agenda */}
-        <section className="mt-6 grid gap-6 pb-8 xl:grid-cols-2">
-          <article className="rounded-3xl border border-white/[0.07] bg-[#111114] p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-lg font-semibold text-zinc-100">
-                  Atividades recentes
-                </p>
-
-                <p className="mt-1 text-sm text-zinc-500">
-                  Últimas movimentações da operação.
-                </p>
-              </div>
-
-              <Activity className="h-5 w-5 text-zinc-600" />
-            </div>
-
-            <div className="mt-6 divide-y divide-white/[0.06]">
-              {recentActivities.map((activity) => {
-                const Icon = activityIcons[activity.type];
-
-                return (
-                  <div
-                    key={activity.id}
-                    className="flex items-start gap-4 py-4 first:pt-0 last:pb-0"
-                  >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.035]">
-                      <Icon className="h-4 w-4 text-[#d84a50]" />
-                    </div>
-
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-zinc-200">
-                        {activity.title}
-                      </p>
-
-                      <p className="mt-1 truncate text-xs text-zinc-500">
-                        {activity.description}
-                      </p>
-                    </div>
-
-                    <span className="shrink-0 text-xs text-zinc-600">
-                      {activity.time}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+        {/* ACTIVITY / SCHEDULE */}
+        <section className="grid pb-10 xl:grid-cols-2">
+          <article className="px-1 py-8 sm:px-6 xl:border-r xl:border-white/[0.08] xl:py-10">
+            <div className="flex items-center justify-between"><div><p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">05 / Activity log</p><h2 className="mt-3 text-xl font-semibold text-zinc-100">Atividades recentes</h2></div><Activity className="h-4 w-4 text-zinc-700"/></div>
+            <div className="mt-7">{recentActivities.map((activity,index)=>{const Icon=activityIcons[activity.type];return <div key={activity.id} className="grid grid-cols-[28px_1fr_auto] items-center gap-4 border-t border-white/[0.06] py-4 first:border-t-0"><span className="font-mono text-[10px] text-zinc-700">0{index+1}</span><div className="flex min-w-0 items-center gap-3"><Icon className="h-3.5 w-3.5 shrink-0 text-[#d84a50]"/><div className="min-w-0"><p className="text-sm text-zinc-300">{activity.title}</p><p className="mt-1 truncate text-xs text-zinc-600">{activity.description}</p></div></div><span className="font-mono text-[10px] text-zinc-700">{activity.time}</span></div>})}</div>
           </article>
-
-          <article className="rounded-3xl border border-white/[0.07] bg-[#111114] p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-lg font-semibold text-zinc-100">
-                  Próximos compromissos
-                </p>
-
-                <p className="mt-1 text-sm text-zinc-500">
-                  Reuniões, contatos e follow-ups.
-                </p>
-              </div>
-
-              <CalendarDays className="h-5 w-5 text-zinc-600" />
-            </div>
-
-            <div className="mt-6 space-y-3">
-              {upcomingEvents.map((event) => (
-                <div
-                  key={event.id}
-                  className="flex items-center gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4 transition hover:border-white/[0.1] hover:bg-white/[0.04]"
-                >
-                  <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl border border-[#b3262d]/15 bg-[#b3262d]/10">
-                  <span className="text-xs font-medium text-[#e15b61]">
-                      {event.date}
-                    </span>
-
-                    <span className="mt-1 text-sm font-semibold text-zinc-100">
-                      {event.time}
-                    </span>
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-zinc-200">
-                      {event.title}
-                    </p>
-
-                    <p className="mt-1 text-xs text-zinc-500">
-                      {event.company}
-                    </p>
-                  </div>
-
-                  <ArrowRight className="h-4 w-4 text-zinc-700" />
-                </div>
-              ))}
-            </div>
+          <article className="px-1 py-8 sm:px-6 xl:py-10">
+            <div className="flex items-center justify-between"><div><p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">06 / Schedule</p><h2 className="mt-3 text-xl font-semibold text-zinc-100">Próximos compromissos</h2></div><CalendarDays className="h-4 w-4 text-zinc-700"/></div>
+            <div className="mt-7">{upcomingEvents.map((event,index)=><div key={event.id} className="group grid grid-cols-[28px_70px_1fr_auto] items-center gap-4 border-t border-white/[0.06] py-4 first:border-t-0"><span className="font-mono text-[10px] text-zinc-700">0{index+1}</span><div><p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#d84a50]">{event.date}</p><p className="mt-1 text-sm text-zinc-300">{event.time}</p></div><div className="min-w-0"><p className="text-sm text-zinc-300">{event.title}</p><p className="mt-1 text-xs text-zinc-600">{event.company}</p></div><ArrowRight className="h-3.5 w-3.5 text-zinc-700 transition group-hover:translate-x-1 group-hover:text-[#d84a50]"/></div>)}</div>
           </article>
         </section>
       </div>
