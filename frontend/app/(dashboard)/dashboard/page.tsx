@@ -1121,11 +1121,11 @@ export default function DashboardPage() {
               <div className="space-y-4 px-6 py-6">
                 {(
                   [
-                    ["Todos", "Meta geral"],
-                    ["Roupas", "Roupas"],
-                    ["Canecas", "Canecas"],
-                    ["Livros", "Livros"],
-                  ] as const
+  ["Todos", "Meta geral"],
+  ["Produção Audiovisual", "Produção Audiovisual"],
+  ["Eventos", "Eventos"],
+  ["Experiências", "Experiências"],
+] as const
                 ).map(([key, label]) => (
                   <label
                     key={key}
