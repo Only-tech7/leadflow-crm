@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { crmLeads, saveLeads, sendLeadToPipeline } from "@/data/crm";
+import { CrmLead, crmLeads, saveLeads, sendLeadToPipeline } from "@/data/crm";
 
 import {
   Activity,
@@ -138,9 +138,10 @@ export default function LeadsPage() {
     .map((part) => part.charAt(0).toUpperCase())
     .join("");
 
-  const lead = {
+  const lead: CrmLead = {
     id: Date.now(),
     ...newLead,
+    status: newLead.status as CrmLead["status"],
     initials,
   };
 
