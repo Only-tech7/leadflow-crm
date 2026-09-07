@@ -38,7 +38,7 @@ type PipelineLead = {
   priority: "Alta" | "Média" | "Baixa";
   probability: number;
 
-  product: "Roupas" | "Canecas" | "Livros";
+  product: "Produção Audiovisual" | "Eventos" | "Experiências";
   campaign: string;
   source: string;
 };
@@ -60,15 +60,15 @@ const initialColumns: PipelineColumn[] = [
         id: 1,
         leadId: 1,
         name: "Mariana Alves",
-        company: "Grupo Horizonte",
-        value: 18000,
+        company: "Acton Experience",
+        value: 18500,
         owner: "Matheus",
-        nextAction: "Hoje, 15:00",
+        nextAction: "Enviar case de evento corporativo",
         priority: "Alta",
-        probability: 92,
-        product: "Livros",
-        campaign: "Campanha Liderança 2026",
-        source: "Meta Ads",
+        probability: 87,
+        product: "Produção Audiovisual",
+        campaign: "Eventos Corporativos 2026",
+        source: "LinkedIn",
       },
       {
         id: 2,
@@ -80,7 +80,7 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "Amanhã, 09:30",
         priority: "Média",
         probability: 65,
-        product: "Canecas",
+        product: "Experiências",
         campaign: "Brindes Corporativos",
         source: "Instagram Ads",
       },
@@ -101,7 +101,7 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "Hoje, 16:20",
         priority: "Alta",
         probability: 88,
-        product: "Roupas",
+        product: "Produção Audiovisual",
         campaign: "Uniformes Corporativos",
         source: "LinkedIn",
       },
@@ -115,7 +115,7 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "25 jul, 11:00",
         priority: "Baixa",
         probability: 52,
-        product: "Livros",
+        product: "Eventos",
         campaign: "Coleção Executiva",
         source: "Google Ads",
       },
@@ -136,7 +136,7 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "Hoje, 14:30",
         priority: "Alta",
         probability: 96,
-        product: "Livros",
+        product: "Eventos",
         campaign: "Campanha Liderança 2026",
         source: "Meta Ads",
       },
@@ -150,7 +150,7 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "Amanhã, 10:00",
         priority: "Média",
         probability: 74,
-        product: "Canecas",
+        product: "Experiências",
         campaign: "Brindes Corporativos",
         source: "WhatsApp",
       },
@@ -171,7 +171,7 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "26 jul, 13:00",
         priority: "Alta",
         probability: 83,
-        product: "Roupas",
+        product: "Produção Audiovisual",
         campaign: "Uniformes Corporativos",
         source: "Indicação",
       },
@@ -198,7 +198,7 @@ const initialColumns: PipelineColumn[] = [
         nextAction: "Contrato aprovado",
         priority: "Média",
         probability: 100,
-        product: "Livros",
+        product: "Eventos",
         campaign: "Coleção Executiva",
         source: "E-mail",
       },
@@ -235,9 +235,9 @@ type ProductFilter = "Todos" | PipelineLead["product"];
 
 const productFilters: ProductFilter[] = [
   "Todos",
-  "Roupas",
-  "Canecas",
-  "Livros",
+  "Produção Audiovisual",
+  "Eventos",
+  "Experiências",
 ];
 
 function formatCurrency(value: number) {

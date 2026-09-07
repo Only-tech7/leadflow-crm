@@ -1,4 +1,4 @@
-export type ProductType = "Roupas" | "Canecas" | "Livros";
+export type ProductType = "Produção Audiovisual" | "Eventos" | "Experiências";
 
 export type LeadStatus =
   | "Novo"
@@ -99,24 +99,25 @@ export type CrmHistoryEvent = {
 */
 
 export const crmLeads: CrmLead[] = [
-  {
-    id: 1,
-    name: "Mariana Souza",
-    role: "Diretora de Marketing",
-    company: "Grupo Horizonte",
-    origin: "Meta Ads",
-    score: 94,
-    status: "Qualificado",
-    nextAction: "Reunião hoje, 10h",
-    owner: "Matheus",
-    initials: "MS",
+  
+   {
+  id: 1,
+  name: "Mariana Alves",
+  role: "Gerente de Marketing",
+  company: "Acton Experience",
+  origin: "LinkedIn",
+  score: 92,
+  status: "Qualificado",
+  nextAction: "Enviar case de evento corporativo",
+  owner: "Matheus",
+  initials: "MA",
 
-    product: "Livros",
-    campaign: "Campanha Liderança 2026",
-    source: "Meta Ads",
+  product: "Produção Audiovisual",
+  campaign: "Eventos Corporativos 2026",
+  source: "LinkedIn",
 
-    estimatedValue: 8500,
-  },
+  estimatedValue: 18500,
+},
 
   {
     id: 2,
@@ -130,7 +131,7 @@ export const crmLeads: CrmLead[] = [
     owner: "Ana",
     initials: "CM",
 
-    product: "Canecas",
+    product: "Experiências",
     campaign: "Brindes Corporativos",
     source: "Instagram Ads",
 
@@ -149,7 +150,7 @@ export const crmLeads: CrmLead[] = [
     owner: "Lucas",
     initials: "FL",
 
-    product: "Roupas",
+    product: "Eventos",
     campaign: "Uniformes Corporativos",
     source: "LinkedIn",
 
@@ -164,28 +165,29 @@ export const crmLeads: CrmLead[] = [
 */
 
 export const initialPipelineOpportunities: PipelineOpportunity[] = [
+  
   {
-    id: 101,
-    leadId: 1,
-    name: "Mariana Souza",
-    company: "Grupo Horizonte",
-    product: "Livros",
-    campaign: "Campanha Liderança 2026",
-    source: "Meta Ads",
-    value: 8500,
-    owner: "Matheus",
-    nextAction: "Reunião hoje, 10h",
-    priority: "Alta",
-    probability: 75,
-    stage: "qualificado",
-  },
+  id: 101,
+  leadId: 1,
+  name: "Mariana Alves",
+  company: "Acton Experience",
+  product: "Produção Audiovisual",
+  campaign: "Eventos Corporativos 2026",
+  source: "LinkedIn",
+  value: 18500,
+  owner: "Matheus",
+  nextAction: "Enviar case de evento corporativo",
+  priority: "Alta",
+  probability: 87,
+  stage: "qualificado",
+},
 
   {
     id: 102,
     leadId: 2,
     name: "Carlos Mendes",
     company: "Grupo Vertex",
-    product: "Canecas",
+    product: "Experiências",
     campaign: "Brindes Corporativos",
     source: "Instagram Ads",
     value: 5200,

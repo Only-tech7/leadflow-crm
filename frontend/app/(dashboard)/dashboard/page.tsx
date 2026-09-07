@@ -121,9 +121,9 @@ type GoalConfig = Record<GoalKey, number>;
 
 const DEFAULT_GOALS: GoalConfig = {
   Todos: 500000,
-  Roupas: 20000,
-  Canecas: 35000,
-  Livros: 50000,
+  "Produção Audiovisual": 20000,
+  Eventos: 35000,
+  Experiências: 50000,
 };
 
 const GOALS_STORAGE_KEY = "leadflow-dashboard-goals";
@@ -659,7 +659,7 @@ export default function DashboardPage() {
             </span>
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {(["Todos", "Roupas", "Canecas", "Livros"] as const).map((product) => {
+            {(["Todos", "Produção Audiovisual", "Eventos", "Experiências"] as const).map((product) => {
               const active = selectedProduct === product;
               return (
                 <button

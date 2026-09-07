@@ -23,9 +23,9 @@ import {
 type ProductFilter = "Todos" | ProductType;
 
 const productStyles: Record<ProductType, string> = {
-  Roupas: "border-blue-500/20 bg-blue-500/10 text-blue-300",
-  Canecas: "border-amber-500/20 bg-amber-500/10 text-amber-300",
-  Livros: "border-violet-500/20 bg-violet-500/10 text-violet-300",
+  "Produção Audiovisual": "border-blue-500/20 bg-blue-500/10 text-blue-300",
+  Eventos: "border-amber-500/20 bg-amber-500/10 text-amber-300",
+  Experiências: "border-violet-500/20 bg-violet-500/10 text-violet-300",
 };
 
 function formatCurrency(value: number) {
@@ -94,9 +94,9 @@ export default function CustomersPage() {
     }
 
     const totals: Record<ProductType, number> = {
-      Roupas: 0,
-      Canecas: 0,
-      Livros: 0,
+      "Produção Audiovisual": 0,
+      Eventos: 0,
+      Experiências: 0,
     };
 
     filteredCustomers.forEach((customer) => {
@@ -232,7 +232,7 @@ export default function CustomersPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-1">
-              {(["Todos", "Roupas", "Canecas", "Livros"] as const).map(
+              {(["Todos", "Produção Audiovisual", "Eventos", "Experiências"] as const).map(
                 (product) => {
                   const active = selectedProduct === product;
 

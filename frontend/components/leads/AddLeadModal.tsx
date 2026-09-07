@@ -24,7 +24,7 @@ export type NewLeadData = {
   score: number;
   nextAction: string;
 
-  product: "Roupas" | "Canecas" | "Livros";
+  product: "Produção Audiovisual" | "Eventos" | "Experiências";
   campaign: string;
   estimatedValue: number;
 };
@@ -46,8 +46,8 @@ const initialFormData: NewLeadData = {
   score: 75,
   nextAction: "Realizar primeiro contato",
 
-  product: "Livros",
-  campaign: "Campanha Liderança 2026",
+  product: "Produção Audiovisual",
+  campaign: "Eventos Corporativos 2026",
   estimatedValue: 5000,
 };
 
@@ -236,7 +236,7 @@ export function AddLeadModal({
                   <Package className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-700" />
 
                   <select
-                    value={formData.product ?? "Livros"}
+                    value={formData.product ?? "Produção Audiovisual"}
                     onChange={(event) =>
                       updateField(
                         "product",
@@ -245,9 +245,9 @@ export function AddLeadModal({
                     }
                     className="h-11 w-full appearance-none rounded-xl border border-white/[0.08] bg-[#151519] pl-10 pr-10 text-sm text-zinc-300 outline-none transition focus:border-[#b3262d]/45"
                   >
-                    <option value="Livros">Livros</option>
-                    <option value="Canecas">Canecas</option>
-                    <option value="Roupas">Roupas</option>
+                    <option value="Produção Audiovisual">Produção Audiovisual</option>
+                    <option value="Eventos">Eventos</option>
+                    <option value="Experiências">Experiências</option>
                   </select>
 
                   <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-600" />
@@ -269,7 +269,7 @@ export function AddLeadModal({
                     onChange={(event) =>
                       updateField("campaign", event.target.value)
                     }
-                    placeholder="Ex.: Campanha Liderança 2026"
+                    placeholder="Ex.: Eventos Corporativos 2026"
                     className="min-w-0 flex-1 bg-transparent text-sm text-zinc-200 outline-none placeholder:text-zinc-700"
                   />
                 </div>
